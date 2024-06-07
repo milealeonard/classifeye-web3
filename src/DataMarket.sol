@@ -17,10 +17,6 @@ contract DataMarket {
     error DataMarket__TransferDidntGoThrough();
     error DataMarket__SenderDoesntOwnDataset();
 
-    // do i need a token or can i just use plain eth?
-    //////// token or erc721
-    // should i use a L2
-    //
     enum DatasetVisibility {
         PRIVATE,
         PUBLIC
@@ -39,19 +35,6 @@ contract DataMarket {
     Dataset[] private s_datasets;
     mapping(address user => uint256[] ownedDatasets) private s_userToDatasets;
 
-    constructor() {}
-
-    /**
-     * TODO:
-     * encrypt dataset
-     * upload dataset to IFPS
-     * decrypt dataset -> list dataset
-     * ******* could/should it cost gas to list a dataset? thats dumb
-     * ******* caching layer?
-     * If i encrypt and upload off-chain i need to make sure that stats are good
-     * so people who analyze whether to buy a dataset can trust the dataset
-     *
-     */
     function createDataset(
         string memory _name,
         string memory _description,
@@ -153,12 +136,6 @@ contract DataMarket {
     }
 
     function purchaseDataset(uint256 _datasetIndex) public payable {
-        // transfer the money from sender to owner
-        // remove ownership from receiver of dataset
-        // give sender ownership of dataset
-
-		
-
         // first ensure the request is sound/valid
         Dataset memory _dataset = s_datasets[_datasetIndex];
 
