@@ -15,6 +15,7 @@ contract DataMarket {
     error DataMarket__SenderAlreadyOwnsDataset();
     error DataMarket__DidntSendEnoughEth();
     error DataMarket__TransferDidntGoThrough();
+    error DataMarket__SenderDoesntOwnDataset();
 
     // do i need a token or can i just use plain eth?
     //////// token or erc721
@@ -189,12 +190,30 @@ contract DataMarket {
             revert DataMarket__TransferDidntGoThrough();
         }
 
+		// TODO: emit events
+
 		s_datasets[_datasetIndex].owner = msg.sender;
         // then transfer the ownership in the contract
         s_userToDatasets[currOwner] = currOwnerNewOwnedDatasets;
         // TODO: First check the sender doesnt already own it
         s_userToDatasets[msg.sender].push(_datasetIndex);
     }
+
+	function updateDataset(uint256 index, string memory newName, string memory newDescription, string memory newData, string memory newSample, uint256 newPrice, uint256 newVisibility) public {
+		Dataset memory _dataset = s_datasets[index];
+		if (_dataset.owner != msg.sender) {
+			revert DataMarket__SenderDoesntOwnDataset();
+		}
+
+		_dataset.name = newName;
+		_dataset.description = newDescription;
+		_dataset.data = newData;
+		_dataset.sample = newSample;
+		_dataset.price = newPrice;
+		_dataset.visibility = DatasetVisibility(newVisibility);
+
+		s_datasets[index] = _dataset;
+	}
 
     function reviewDataset(uint256 datasetIndex, uint256 rating, string memory review) public {}
 }
