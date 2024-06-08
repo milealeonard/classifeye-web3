@@ -10,6 +10,11 @@ import {console} from "forge-std/console.sol";
  * @notice
  */
 contract DataMarket {
+
+	event DatasetCreated(address indexed creator, uint256 indexed datasetIndex);
+	event DatasetUpdated(address indexed creator, uint256 indexed datasetIndex);
+	event DatasetPurchased(address indexed purchaser, address indexed purchasedFrom, uint256 indexed datasetIndex);
+
     error DataMarket__OwnerDoesntOwnDataset();
     error DataMarket__DatasetIsntPublicToBuy();
     error DataMarket__SenderAlreadyOwnsDataset();
@@ -54,6 +59,7 @@ contract DataMarket {
         uint256 newDatasetIdx = s_datasets.length;
         s_datasets.push(dataset);
         s_userToDatasets[msg.sender].push(newDatasetIdx);
+		emit DatasetCreated(msg.sender, newDatasetIdx);
     }
 
     function listAllDatasets() public view returns (Dataset[] memory) {
@@ -167,7 +173,7 @@ contract DataMarket {
             revert DataMarket__TransferDidntGoThrough();
         }
 
-        // TODO: emit events
+		emit DatasetPurchased(msg.sender, currOwner, _datasetIndex);
 
         s_datasets[_datasetIndex].owner = msg.sender;
         // then transfer the ownership in the contract
@@ -198,6 +204,7 @@ contract DataMarket {
         _dataset.visibility = DatasetVisibility(newVisibility);
 
         s_datasets[index] = _dataset;
+		emit DatasetUpdated(msg.sender, index);
     }
 
     function reviewDataset(uint256 datasetIndex, uint256 rating, string memory review) public {}
