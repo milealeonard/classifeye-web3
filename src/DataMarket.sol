@@ -39,7 +39,7 @@ contract DataMarket {
         string memory _name,
         string memory _description,
         string memory _data,
-		string memory _sample,
+        string memory _sample,
         uint256 _price,
         uint256 _visibility
     ) public {
@@ -59,7 +59,7 @@ contract DataMarket {
     function listAllDatasets() public view returns (Dataset[] memory) {
         uint256 numDatasets = s_datasets.length;
 
-		uint256 publicDatasetCount;
+        uint256 publicDatasetCount;
         for (uint256 i = 0; i < numDatasets; i++) {
             if (s_datasets[i].visibility == DatasetVisibility.PUBLIC) {
                 publicDatasetCount++;
@@ -105,11 +105,11 @@ contract DataMarket {
         return (true, ownedDatasetsAfterRemoval);
     }
 
-	/**
-	 * @dev Remove the dataset from the owners owned datasets if they own it.
-	 * @param _refOwner owner who we are removing ownership of dataset from 
-	 * @param _datasetIndex index of dataset we are removing ownership from _refOwner of
-	 */
+    /**
+     * @dev Remove the dataset from the owners owned datasets if they own it.
+     * @param _refOwner owner who we are removing ownership of dataset from
+     * @param _datasetIndex index of dataset we are removing ownership from _refOwner of
+     */
     function _rederiveOwnershipsWithoutIndex(address _refOwner, uint256 _datasetIndex)
         internal
         view
@@ -139,18 +139,18 @@ contract DataMarket {
         // first ensure the request is sound/valid
         Dataset memory _dataset = s_datasets[_datasetIndex];
 
-		// Step 1: Ensure sent enough money
-		uint256 msgValue = msg.value;
+        // Step 1: Ensure sent enough money
+        uint256 msgValue = msg.value;
         if (msgValue < _dataset.price) {
             revert DataMarket__DidntSendEnoughEth();
         }
 
-		// Step 2: ensure this dataset is truly for sale
-		if (_dataset.visibility != DatasetVisibility.PUBLIC || _dataset.price == 0) {
-			revert DataMarket__DatasetIsntPublicToBuy();
-		}
+        // Step 2: ensure this dataset is truly for sale
+        if (_dataset.visibility != DatasetVisibility.PUBLIC || _dataset.price == 0) {
+            revert DataMarket__DatasetIsntPublicToBuy();
+        }
 
-		// Step 3: ownership sanity check
+        // Step 3: ownership sanity check
         address currOwner = _dataset.owner;
         if (currOwner == msg.sender) {
             revert DataMarket__SenderAlreadyOwnsDataset();
@@ -167,30 +167,38 @@ contract DataMarket {
             revert DataMarket__TransferDidntGoThrough();
         }
 
-		// TODO: emit events
+        // TODO: emit events
 
-		s_datasets[_datasetIndex].owner = msg.sender;
+        s_datasets[_datasetIndex].owner = msg.sender;
         // then transfer the ownership in the contract
         s_userToDatasets[currOwner] = currOwnerNewOwnedDatasets;
         // TODO: First check the sender doesnt already own it
         s_userToDatasets[msg.sender].push(_datasetIndex);
     }
 
-	function updateDataset(uint256 index, string memory newName, string memory newDescription, string memory newData, string memory newSample, uint256 newPrice, uint256 newVisibility) public {
-		Dataset memory _dataset = s_datasets[index];
-		if (_dataset.owner != msg.sender) {
-			revert DataMarket__SenderDoesntOwnDataset();
-		}
+    function updateDataset(
+        uint256 index,
+        string memory newName,
+        string memory newDescription,
+        string memory newData,
+        string memory newSample,
+        uint256 newPrice,
+        uint256 newVisibility
+    ) public {
+        Dataset memory _dataset = s_datasets[index];
+        if (_dataset.owner != msg.sender) {
+            revert DataMarket__SenderDoesntOwnDataset();
+        }
 
-		_dataset.name = newName;
-		_dataset.description = newDescription;
-		_dataset.data = newData;
-		_dataset.sample = newSample;
-		_dataset.price = newPrice;
-		_dataset.visibility = DatasetVisibility(newVisibility);
+        _dataset.name = newName;
+        _dataset.description = newDescription;
+        _dataset.data = newData;
+        _dataset.sample = newSample;
+        _dataset.price = newPrice;
+        _dataset.visibility = DatasetVisibility(newVisibility);
 
-		s_datasets[index] = _dataset;
-	}
+        s_datasets[index] = _dataset;
+    }
 
     function reviewDataset(uint256 datasetIndex, uint256 rating, string memory review) public {}
 }

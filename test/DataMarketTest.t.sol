@@ -36,7 +36,7 @@ contract DataMarketTest is Test {
             _name: "name",
             _description: "description",
             _data: "data",
-			_sample: "sample",
+            _sample: "sample",
             _price: 100,
             _visibility: 1
         });
@@ -63,7 +63,7 @@ contract DataMarketTest is Test {
             _name: "name",
             _description: "description",
             _data: "data",
-			_sample: "sample",
+            _sample: "sample",
             _price: 100,
             _visibility: 0
         });
@@ -89,7 +89,7 @@ contract DataMarketTest is Test {
         dataMarket.createDataset({
             _name: "name",
             _description: "description",
-			_sample: "sample",
+            _sample: "sample",
             _data: "data",
             _price: 100,
             _visibility: 1
@@ -98,27 +98,27 @@ contract DataMarketTest is Test {
         // ensure the public dataset exists
         DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
         assertEq(_datasets.length, 1);
-		assertEq(_datasets[0].owner, userOne);
+        assertEq(_datasets[0].owner, userOne);
 
         // then when userTwo tries to buy it he can
         vm.prank(userTwo);
         vm.deal(userTwo, 100);
         dataMarket.purchaseDataset{value: 100}(0);
 
-		// money assertions
-		assertEq(userTwo.balance, 0);
-		assertEq(userOne.balance, 100);
+        // money assertions
+        assertEq(userTwo.balance, 0);
+        assertEq(userOne.balance, 100);
 
-		// ensure still one dataset and ownership has been transfered
-		DataMarket.Dataset[] memory _datasetsPostTransfer = dataMarket.listAllDatasets();
+        // ensure still one dataset and ownership has been transfered
+        DataMarket.Dataset[] memory _datasetsPostTransfer = dataMarket.listAllDatasets();
         assertEq(_datasetsPostTransfer.length, 1);
-		console.log("final check", _datasetsPostTransfer[0].owner, userTwo);
-		assertEq(_datasetsPostTransfer[0].owner, userTwo);
+        console.log("final check", _datasetsPostTransfer[0].owner, userTwo);
+        assertEq(_datasetsPostTransfer[0].owner, userTwo);
 
-		vm.prank(userTwo);
-		DataMarket.Dataset[] memory _personalDatasetsPost = dataMarket.listDatasetsForUser();
-		console.log("final check", _personalDatasetsPost[0].owner, userTwo);
-		assertEq(_personalDatasetsPost[0].owner, userTwo);
+        vm.prank(userTwo);
+        DataMarket.Dataset[] memory _personalDatasetsPost = dataMarket.listDatasetsForUser();
+        console.log("final check", _personalDatasetsPost[0].owner, userTwo);
+        assertEq(_personalDatasetsPost[0].owner, userTwo);
     }
 
     function testCantPurchasePrivateDataset() public {
@@ -128,7 +128,7 @@ contract DataMarketTest is Test {
             _name: "name",
             _description: "description",
             _data: "data",
-			_sample: "sample",
+            _sample: "sample",
             _price: 100,
             _visibility: 0
         });
@@ -136,7 +136,7 @@ contract DataMarketTest is Test {
         // then when userTwo tries to buy it he can
         vm.prank(userTwo);
         vm.deal(userTwo, 100);
-		vm.expectRevert();
+        vm.expectRevert();
         dataMarket.purchaseDataset{value: 100}(0);
     }
 
@@ -147,7 +147,7 @@ contract DataMarketTest is Test {
             _name: "name",
             _description: "description",
             _data: "data",
-			_sample: "sample",
+            _sample: "sample",
             _price: 100,
             _visibility: 1
         });
@@ -155,74 +155,74 @@ contract DataMarketTest is Test {
         // then when userTwo tries to buy it he can
         vm.prank(userTwo);
         vm.deal(userTwo, 99);
-		vm.expectRevert();
+        vm.expectRevert();
         dataMarket.purchaseDataset{value: 99}(0);
     }
 
-	function testUpdateDatasetSimply() public {
-		// when you create a dataset
-		vm.prank(userOne);
+    function testUpdateDatasetSimply() public {
+        // when you create a dataset
+        vm.prank(userOne);
         dataMarket.createDataset({
             _name: "name",
             _description: "description",
             _data: "data",
-			_sample: "sample",
+            _sample: "sample",
             _price: 100,
             _visibility: 0
         });
 
-		// then when you update it
-		vm.prank(userOne);
-		dataMarket.updateDataset({
-			index: 0,
+        // then when you update it
+        vm.prank(userOne);
+        dataMarket.updateDataset({
+            index: 0,
             newName: "newName",
             newDescription: "newDesc",
             newData: "newData",
-			newSample: "newSample",
+            newSample: "newSample",
             newPrice: 1000,
             newVisibility: 1
         });
 
-		// then when you list it
-		vm.prank(userOne);
-		DataMarket.Dataset[] memory _personalDatasetsPost = dataMarket.listDatasetsForUser();
-		assertEq(_personalDatasetsPost[0].name, "newName");
-		assertEq(_personalDatasetsPost[0].description, "newDesc");
-		assertEq(_personalDatasetsPost[0].data, "newData");
-		assertEq(_personalDatasetsPost[0].sample, "newSample");
-		assertEq(_personalDatasetsPost[0].price, 1000);
-		assertEq(uint256(_personalDatasetsPost[0].visibility), 1);
-		// still owns it
-		assertEq(_personalDatasetsPost[0].owner, userOne);
-	}
-	
-	function testCantUpdateOthersDataset() public {
-		// when you create a dataset
-		vm.prank(userTwo);
+        // then when you list it
+        vm.prank(userOne);
+        DataMarket.Dataset[] memory _personalDatasetsPost = dataMarket.listDatasetsForUser();
+        assertEq(_personalDatasetsPost[0].name, "newName");
+        assertEq(_personalDatasetsPost[0].description, "newDesc");
+        assertEq(_personalDatasetsPost[0].data, "newData");
+        assertEq(_personalDatasetsPost[0].sample, "newSample");
+        assertEq(_personalDatasetsPost[0].price, 1000);
+        assertEq(uint256(_personalDatasetsPost[0].visibility), 1);
+        // still owns it
+        assertEq(_personalDatasetsPost[0].owner, userOne);
+    }
+
+    function testCantUpdateOthersDataset() public {
+        // when you create a dataset
+        vm.prank(userTwo);
         dataMarket.createDataset({
             _name: "name",
             _description: "description",
             _data: "data",
-			_sample: "sample",
+            _sample: "sample",
             _price: 100,
             _visibility: 1
         });
 
-		// ensure we have a dataset
-		DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
-		assertEq(_datasets.length, 1);
+        // ensure we have a dataset
+        DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
+        assertEq(_datasets.length, 1);
 
-		// then when you update it
-		vm.prank(userOne);
-		vm.expectRevert();
-		dataMarket.updateDataset({
-			index: 0,
+        // then when you update it
+        vm.prank(userOne);
+        vm.expectRevert();
+        dataMarket.updateDataset({
+            index: 0,
             newName: "newName",
             newDescription: "newDesc",
             newData: "newData",
-			newSample: "newSample",
+            newSample: "newSample",
             newPrice: 1000,
             newVisibility: 1
         });
-	}
+    }
 }
