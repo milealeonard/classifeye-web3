@@ -64,20 +64,18 @@ contract DataMarket {
 
     function listAllDatasets() public view returns (Dataset[] memory) {
         uint256 numDatasets = s_datasets.length;
+		Dataset[] memory publicDatasets = new Dataset[](numDatasets);
 
-        uint256 publicDatasetCount;
+		Dataset memory blankDataset;
+		blankDataset.name = "private";
+
         for (uint256 i = 0; i < numDatasets; i++) {
             if (s_datasets[i].visibility == DatasetVisibility.PUBLIC) {
-                publicDatasetCount++;
-            }
-        }
-        uint256 newDatasetCounter;
-        Dataset[] memory publicDatasets = new Dataset[](publicDatasetCount);
-        for (uint256 i = 0; i < numDatasets; i++) {
-            if (s_datasets[i].visibility == DatasetVisibility.PUBLIC) {
-                publicDatasets[newDatasetCounter] = s_datasets[i];
-                newDatasetCounter++;
-            }
+                publicDatasets[i] = s_datasets[i];
+            } else {
+				// if dataset isn't public just append an empty one
+				publicDatasets[i] = blankDataset;
+			}
         }
 
         return publicDatasets;

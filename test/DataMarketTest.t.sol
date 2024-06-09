@@ -69,7 +69,8 @@ contract DataMarketTest is Test {
         });
 
         DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
-        assertEq(_datasets.length, 0);
+        assertEq(_datasets.length, 1);
+		assertEq(_datasets[0].name, "private");
 
         // however you should be able to see your own
         vm.prank(userOne);
