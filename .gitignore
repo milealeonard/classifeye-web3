@@ -15,5 +15,6 @@ docs/
 
 .DS_Store
 
-./datamarket/node_modules
+datamarket/node_modules
+datamarket/.next
 ./broadcast

@@ -1,0 +1,172 @@
+export const DATAMARKET_ABI = [
+  {
+    type: "function",
+    name: "createDataset",
+    inputs: [
+      { name: "_name", type: "string", internalType: "string" },
+      { name: "_description", type: "string", internalType: "string" },
+      { name: "_data", type: "string", internalType: "string" },
+      { name: "_sample", type: "string", internalType: "string" },
+      { name: "_price", type: "uint256", internalType: "uint256" },
+      { name: "_visibility", type: "uint256", internalType: "uint256" },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "listAllDatasets",
+    inputs: [],
+    outputs: [
+      {
+        name: "",
+        type: "tuple[]",
+        internalType: "struct DataMarket.Dataset[]",
+        components: [
+          { name: "name", type: "string", internalType: "string" },
+          { name: "description", type: "string", internalType: "string" },
+          { name: "data", type: "string", internalType: "string" },
+          { name: "sample", type: "string", internalType: "string" },
+          { name: "price", type: "uint256", internalType: "uint256" },
+          { name: "owner", type: "address", internalType: "address" },
+          {
+            name: "visibility",
+            type: "uint8",
+            internalType: "enum DataMarket.DatasetVisibility",
+          },
+        ],
+      },
+    ],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "listDatasetsForUser",
+    inputs: [],
+    outputs: [
+      {
+        name: "",
+        type: "tuple[]",
+        internalType: "struct DataMarket.Dataset[]",
+        components: [
+          { name: "name", type: "string", internalType: "string" },
+          { name: "description", type: "string", internalType: "string" },
+          { name: "data", type: "string", internalType: "string" },
+          { name: "sample", type: "string", internalType: "string" },
+          { name: "price", type: "uint256", internalType: "uint256" },
+          { name: "owner", type: "address", internalType: "address" },
+          {
+            name: "visibility",
+            type: "uint8",
+            internalType: "enum DataMarket.DatasetVisibility",
+          },
+        ],
+      },
+    ],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "purchaseDataset",
+    inputs: [
+      { name: "_datasetIndex", type: "uint256", internalType: "uint256" },
+    ],
+    outputs: [],
+    stateMutability: "payable",
+  },
+  {
+    type: "function",
+    name: "reviewDataset",
+    inputs: [
+      { name: "datasetIndex", type: "uint256", internalType: "uint256" },
+      { name: "rating", type: "uint256", internalType: "uint256" },
+      { name: "review", type: "string", internalType: "string" },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "updateDataset",
+    inputs: [
+      { name: "index", type: "uint256", internalType: "uint256" },
+      { name: "newName", type: "string", internalType: "string" },
+      { name: "newDescription", type: "string", internalType: "string" },
+      { name: "newData", type: "string", internalType: "string" },
+      { name: "newSample", type: "string", internalType: "string" },
+      { name: "newPrice", type: "uint256", internalType: "uint256" },
+      { name: "newVisibility", type: "uint256", internalType: "uint256" },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "event",
+    name: "DatasetCreated",
+    inputs: [
+      {
+        name: "creator",
+        type: "address",
+        indexed: true,
+        internalType: "address",
+      },
+      {
+        name: "datasetIndex",
+        type: "uint256",
+        indexed: true,
+        internalType: "uint256",
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "DatasetPurchased",
+    inputs: [
+      {
+        name: "purchaser",
+        type: "address",
+        indexed: true,
+        internalType: "address",
+      },
+      {
+        name: "purchasedFrom",
+        type: "address",
+        indexed: true,
+        internalType: "address",
+      },
+      {
+        name: "datasetIndex",
+        type: "uint256",
+        indexed: true,
+        internalType: "uint256",
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "DatasetUpdated",
+    inputs: [
+      {
+        name: "creator",
+        type: "address",
+        indexed: true,
+        internalType: "address",
+      },
+      {
+        name: "datasetIndex",
+        type: "uint256",
+        indexed: true,
+        internalType: "uint256",
+      },
+    ],
+    anonymous: false,
+  },
+  { type: "error", name: "DataMarket__DatasetIsntPublicToBuy", inputs: [] },
+  { type: "error", name: "DataMarket__DidntSendEnoughEth", inputs: [] },
+  { type: "error", name: "DataMarket__OwnerDoesntOwnDataset", inputs: [] },
+  { type: "error", name: "DataMarket__SenderAlreadyOwnsDataset", inputs: [] },
+  { type: "error", name: "DataMarket__SenderDoesntOwnDataset", inputs: [] },
+  { type: "error", name: "DataMarket__TransferDidntGoThrough", inputs: [] },
+];
