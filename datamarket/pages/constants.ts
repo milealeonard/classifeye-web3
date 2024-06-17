@@ -55,6 +55,17 @@ export interface UpdateDatasetProps {
   newVisibility: number;
 }
 
+export interface UpdateOrCreateDatasetProps {
+  name: string;
+  setName: (val: string) => void;
+  description: string;
+  setDescription: (val: string) => void;
+  price: number | "";
+  setPrice: (val: number) => void;
+  visibility: DatasetVisibility;
+  setVisibility: (newVis: DatasetVisibility) => void;
+}
+
 ///////////
 // Enums //
 ///////////
@@ -68,7 +79,7 @@ export enum DatasetVisibility {
 // Constants //
 ///////////////
 
-export const DATAMARKET_ADDY = "0x9E2242E24953858C88bdB3e059679762522c9c74";
+export const DATAMARKET_ADDY = "0xE531c5c8F02Ff6185F5C89D43F2E930e33A0D4A9";
 
 /**
  * Number of images to include from the dataset as a sample size

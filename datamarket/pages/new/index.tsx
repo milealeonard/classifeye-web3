@@ -6,11 +6,10 @@ import { PageOne } from "./PageOne";
 import { ClassiFile, Dataset, DatasetVisibility } from "../constants";
 import { PageTwo } from "./PageTwo";
 import { PageThree } from "./PageThree";
-import { useSearchParams } from "next/navigation";
-import JSZip from "jszip";
 import { createDataset } from "../utils/utils";
 import { PageFour } from "./PageFour";
 import { PageFive } from "./PageFive";
+import toast from "react-hot-toast";
 
 const NewProj = (): React.ReactElement => {
   const router = useRouter();
@@ -27,7 +26,7 @@ const NewProj = (): React.ReactElement => {
   const [datasetName, setDatasetName] = React.useState<string>("");
   const [datasetDescription, setDatasetDescription] =
     React.useState<string>("");
-  const [price, setPrice] = React.useState<number>(0);
+  const [price, setPrice] = React.useState<number | "">("");
   const [visibility, setVisibility] = React.useState<DatasetVisibility>(
     DatasetVisibility.PUBLIC
   );
@@ -83,7 +82,7 @@ const NewProj = (): React.ReactElement => {
             await createDataset({
               _datasetName: datasetName,
               _datasetDescription: datasetDescription,
-              _datasetPrice: price,
+              _datasetPrice: price || 0,
               _datasetVisibility: visibility,
               grader: firstName,
               images: files,
@@ -92,6 +91,7 @@ const NewProj = (): React.ReactElement => {
           setPageNumber((page) => page + 1);
         } catch (error) {
           console.error(error);
+          toast.error("Failed to create dataset...");
         } finally {
           setCreatingDataset(false);
         }
@@ -108,9 +108,14 @@ const NewProj = (): React.ReactElement => {
       className="flex flex-col min-h-full items-center content-center gap-2 w-6/12 pt-4"
       style={{ backgroundColor: colors.darkBlue }}
     >
-      <h1>classifEye</h1>
+      <h1 className="pb-4">classifEye</h1>
       {pageNumber === 0 && (
-        <PageOne setFiles={setFiles} setFirstName={setFirstName} />
+        <PageOne
+          hasFiles={!!files.length}
+          setFiles={setFiles}
+          firstName={firstName}
+          setFirstName={setFirstName}
+        />
       )}
       {pageNumber === 1 && (
         <PageTwo
@@ -135,12 +140,7 @@ const NewProj = (): React.ReactElement => {
       {pageNumber === 4 && createdDataset && (
         <PageFive dataset={createdDataset} />
       )}
-      <div
-        className="flex flex-row gap-4 "
-        style={{
-          paddingTop: pageNumber < 2 ? "30px" : undefined,
-        }}
-      >
+      <div className="flex flex-row gap-4 pt-6">
         {pageNumber > 0 && pageNumber < 4 && (
           <Button
             onClick={(): void => {
