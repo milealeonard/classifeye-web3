@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 type Props = {
   onChange: (event: any) => void;
-  value?: number;
+  value: number | "";
   placeholder?: string;
   disabled?: boolean;
   multiline?: boolean;
@@ -23,7 +23,7 @@ export const NumberInput: FC<Props> = ({
       value={value}
       onChange={onChange}
       disabled={disabled}
-      className="text-black p-1 rounded-md border border-gray-600 w-full"
+      className="p-1 rounded-md border-2 border-lightBlue text-black focus:outline-none w-full"
     />
   );
 };

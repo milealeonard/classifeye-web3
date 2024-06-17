@@ -1,11 +1,13 @@
 import React from "react";
-import Link from "next/link";
 import { ListDatasets } from "./components/ListDatasets";
 import { Dataset } from "./constants";
 import { getDataMarketContract } from "./utils/DataContractUtils";
 import { ethers } from "ethers";
 import { useRouter } from "next/router";
 import { Button } from "./components/Button";
+
+const DEFAULT_HOME_CLASSNAME =
+  "w-full min-h-screen m-auto flex flex-col justify-center items-center gap-2";
 
 const Home = (): React.ReactElement => {
   const [datasets, setDatasets] = React.useState<Dataset[] | undefined>(
@@ -39,15 +41,19 @@ const Home = (): React.ReactElement => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p className={DEFAULT_HOME_CLASSNAME}>Loading...</p>;
   }
 
   if (!datasets || !accounts) {
-    return <p>Error</p>;
+    return (
+      <p className={DEFAULT_HOME_CLASSNAME}>
+        Please install or connect metamask
+      </p>
+    );
   }
 
   return (
-    <main className="w-full min-h-screen m-auto flex flex-col justify-center items-center gap-2">
+    <main className={DEFAULT_HOME_CLASSNAME}>
       <p>Welcome!</p>
       {!!datasets.length ? (
         <Button onClick={() => router.push("/my-datasets")}>

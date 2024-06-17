@@ -1,13 +1,18 @@
 import React from "react";
+import CheckIcon from "@mui/icons-material/Check";
 import { ClassiFile } from "../constants";
 import { Button } from "../components/Button";
 import { TextField } from "../components/TextField";
 
 export const PageOne = ({
+  hasFiles,
   setFiles,
+  firstName,
   setFirstName,
 }: {
+  hasFiles: boolean;
   setFiles: (prop: ClassiFile[]) => void;
+  firstName: string;
   setFirstName: (name: string) => void;
 }): React.ReactElement => {
   function handleChange(e: any) {
@@ -32,12 +37,19 @@ export const PageOne = ({
 
   return (
     <div className="flex flex-col gap-3 items-center" style={{ width: "50vw" }}>
-      <TextField
-        onChange={(event) => {
-          setFirstName(event.target.value);
-        }}
-        placeholder="Grader name"
-      />
+      <div className="flex flex-row gap-1 items-center relative">
+        <TextField
+          onChange={(event) => {
+            setFirstName(event.target.value);
+          }}
+          value={firstName}
+          placeholder="Grader name"
+        />
+
+        {!!firstName && (
+          <CheckIcon className="absolute -right-8" color="secondary" />
+        )}
+      </div>
       <input
         type="file"
         id="fileInput"
@@ -46,9 +58,11 @@ export const PageOne = ({
         multiple
         style={{ display: "none" }}
       />
-      <div className="flex flex-row content-between items-center">
+      <div className="flex flex-row content-between items-center relative">
         <Button onClick={handleButtonClick}>Select files</Button>
-        {/* {hasFiles && <CheckIcon color="secondary" />} */}
+        {hasFiles && (
+          <CheckIcon color="secondary" className="absolute -right-8" />
+        )}
       </div>
     </div>
   );

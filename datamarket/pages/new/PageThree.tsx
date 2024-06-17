@@ -3,7 +3,8 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { ClassiFile } from "../constants";
 import { Button } from "../components/Button";
 import { TextField } from "../components/TextField";
-
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 const greaterThan10ToLetter = new Map<number, string>([
   [9, "a"],
   [10, "b"],
@@ -205,8 +206,12 @@ export const PageThree = ({
       <p>{`Image ${fileIndex + 1}/${images.length}`}</p>
       {/* </Typography> */}
       <div className="flex flex-row items-center content-center rounded-md gap-2">
-        <Button onClick={prevImage}>Prev Img</Button>
-        <Button onClick={nextImage}>Next Img</Button>
+        <Button onClick={prevImage}>
+          <KeyboardBackspaceIcon />
+        </Button>
+        <Button onClick={nextImage}>
+          <ArrowRightAltIcon />
+        </Button>
       </div>
       <div className="flex flex-row gap-2">
         <TextField

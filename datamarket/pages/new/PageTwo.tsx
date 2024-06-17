@@ -86,14 +86,9 @@ export const PageTwo = ({
           {labels.map((value: string) => {
             return (
               <div className="flex flex-row gap-2 items-center" key={value}>
-                {/* <Typography
-                  component="span"
-                  variant="body1"
-                  paddingBottom="3px"
-                > */}
                 <p>{value}</p>
-                {/* </Typography> */}
                 <Button
+                  removeOutline
                   onClick={(): void => {
                     // @ts-ignore
                     setLabels((prev) =>
@@ -101,13 +96,7 @@ export const PageTwo = ({
                     );
                   }}
                 >
-                  {/* <Typography
-                    component="span"
-                    variant="body2"
-                    color={muiXTheme.palette.primary.main}
-                  > */}
                   <p>Delete</p>
-                  {/* </Typography> */}
                 </Button>
               </div>
             );

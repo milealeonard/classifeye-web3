@@ -19,7 +19,8 @@ export const TextField: FC<Props> = ({
   multiline,
   fullWidth,
 }) => {
-  let className = "p-1 rounded-md border border-gray-600 text-black";
+  let className =
+    "p-1 rounded-md border-2 border-lightBlue text-black focus:outline-none";
   if (fullWidth) {
     className = className.concat(" w-full");
   }
