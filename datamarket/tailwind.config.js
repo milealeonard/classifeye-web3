@@ -1,4 +1,5 @@
 const { fontFamily, backgroundPosition } = require("tailwindcss/defaultTheme");
+const { colors } = require("./styles/theme");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -13,28 +14,29 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Helvetica Neue', ...fontFamily.sans],
+        sans: ["Helvetica Neue", ...fontFamily.sans],
         serif: [...fontFamily.serif],
-        agrandir: ['Agrandir', ...fontFamily.sans],
-        telegraf: ['Telegraf', ...fontFamily.sans],
+        agrandir: ["Agrandir", ...fontFamily.sans],
+        telegraf: ["Telegraf", ...fontFamily.sans],
       },
       colors: {
         accent: "var(--color-accent)",
         secondary: "var(--color-secondary)",
         light: "var(--color-light)",
+        lightBlue: colors.lightBlue,
+        darkBlue: colors.darkBlue,
       },
       backgroundImage: {
-        "heroImage": "url('/bg.png')",
+        heroImage: "url('/bg.png')",
       },
       keyframes: {
         animategradient: {
-          '0%, 50%': { backgroundPosition: '0%, 50%' },
-          '50%, 100%': { backgroundPosition: '100%, 50%' },
-          '100%, 50%': { backgroundPositionposition: '0%, 50%' }
-        }
-
+          "0%, 50%": { backgroundPosition: "0%, 50%" },
+          "50%, 100%": { backgroundPosition: "100%, 50%" },
+          "100%, 50%": { backgroundPositionposition: "0%, 50%" },
+        },
       },
     },
   },
   plugins: [],
-}
+};
