@@ -41,32 +41,6 @@ export const DATAMARKET_ABI = [
   },
   {
     type: "function",
-    name: "listDatasetsForUser",
-    inputs: [],
-    outputs: [
-      {
-        name: "",
-        type: "tuple[]",
-        internalType: "struct DataMarket.Dataset[]",
-        components: [
-          { name: "name", type: "string", internalType: "string" },
-          { name: "description", type: "string", internalType: "string" },
-          { name: "data", type: "string", internalType: "string" },
-          { name: "sample", type: "string", internalType: "string" },
-          { name: "price", type: "uint256", internalType: "uint256" },
-          { name: "owner", type: "address", internalType: "address" },
-          {
-            name: "visibility",
-            type: "uint8",
-            internalType: "enum DataMarket.DatasetVisibility",
-          },
-        ],
-      },
-    ],
-    stateMutability: "view",
-  },
-  {
-    type: "function",
     name: "purchaseDataset",
     inputs: [
       { name: "_datasetIndex", type: "uint256", internalType: "uint256" },

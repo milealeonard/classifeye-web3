@@ -83,20 +83,6 @@ contract DataMarket {
         return publicDatasets;
     }
 
-    function listDatasetsForUser() public view returns (Dataset[] memory) {
-        uint256[] memory datasetsOwned = s_userToDatasets[msg.sender];
-        uint256 datasetsOwnedLength = datasetsOwned.length;
-        Dataset[] memory _datasets = new Dataset[](datasetsOwnedLength);
-        if (datasetsOwnedLength <= 0) {
-            return _datasets;
-        }
-
-        for (uint256 i = 0; i < datasetsOwnedLength; i++) {
-            _datasets[i] = s_datasets[datasetsOwned[i]];
-        }
-        return _datasets;
-    }
-
     function _addressOwnsDataset(address _refOwner, uint256 _datasetIndex)
         internal
         view
@@ -207,5 +193,6 @@ contract DataMarket {
 		emit DatasetUpdated(msg.sender, index);
     }
 
+	// TODO: would be nice to make dataset owners pay for it
     function reviewDataset(uint256 datasetIndex, uint256 rating, string memory review) public {}
 }

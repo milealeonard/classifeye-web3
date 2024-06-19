@@ -17,16 +17,10 @@ contract DataMarketTest is Test {
         dataMarket = DataMarket(dataMarketAddy);
     }
 
-    function testInit() public {
+    function testInit() public view {
         // listing datasets should be empty
         DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
         assertEq(_datasets.length, 0);
-
-        // and for a sender
-        vm.prank(userOne);
-        DataMarket.Dataset[] memory _datasetsForUser = dataMarket.listDatasetsForUser();
-
-        assertEq(_datasetsForUser.length, 0);
     }
 
     function testCreateDataset() public {
@@ -43,13 +37,7 @@ contract DataMarketTest is Test {
 
         DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
         assertEq(_datasets.length, 1);
-
-        // and for a sender
-        vm.prank(userOne);
-        DataMarket.Dataset[] memory _datasetsForUser = dataMarket.listDatasetsForUser();
-
-        assertEq(_datasetsForUser.length, 1);
-        DataMarket.Dataset memory zeroth_dataset = _datasetsForUser[0];
+        DataMarket.Dataset memory zeroth_dataset = _datasets[0];
         assertEq(zeroth_dataset.name, "name");
         assertEq(zeroth_dataset.description, "description");
         assertEq(zeroth_dataset.data, "data");
@@ -74,7 +62,7 @@ contract DataMarketTest is Test {
 
         // however you should be able to see your own
         vm.prank(userOne);
-        DataMarket.Dataset[] memory _datasetsForUser = dataMarket.listDatasetsForUser();
+        DataMarket.Dataset[] memory _datasetsForUser = dataMarket.listAllDatasets();
 
         assertEq(_datasetsForUser.length, 1);
         DataMarket.Dataset memory zeroth_dataset = _datasetsForUser[0];
@@ -113,13 +101,7 @@ contract DataMarketTest is Test {
         // ensure still one dataset and ownership has been transfered
         DataMarket.Dataset[] memory _datasetsPostTransfer = dataMarket.listAllDatasets();
         assertEq(_datasetsPostTransfer.length, 1);
-        console.log("final check", _datasetsPostTransfer[0].owner, userTwo);
         assertEq(_datasetsPostTransfer[0].owner, userTwo);
-
-        vm.prank(userTwo);
-        DataMarket.Dataset[] memory _personalDatasetsPost = dataMarket.listDatasetsForUser();
-        console.log("final check", _personalDatasetsPost[0].owner, userTwo);
-        assertEq(_personalDatasetsPost[0].owner, userTwo);
     }
 
     function testCantPurchasePrivateDataset() public {
@@ -186,15 +168,15 @@ contract DataMarketTest is Test {
 
         // then when you list it
         vm.prank(userOne);
-        DataMarket.Dataset[] memory _personalDatasetsPost = dataMarket.listDatasetsForUser();
-        assertEq(_personalDatasetsPost[0].name, "newName");
-        assertEq(_personalDatasetsPost[0].description, "newDesc");
-        assertEq(_personalDatasetsPost[0].data, "newData");
-        assertEq(_personalDatasetsPost[0].sample, "newSample");
-        assertEq(_personalDatasetsPost[0].price, 1000);
-        assertEq(uint256(_personalDatasetsPost[0].visibility), 1);
+        DataMarket.Dataset[] memory _allDatasetsPost = dataMarket.listAllDatasets();
+        assertEq(_allDatasetsPost[0].name, "newName");
+        assertEq(_allDatasetsPost[0].description, "newDesc");
+        assertEq(_allDatasetsPost[0].data, "newData");
+        assertEq(_allDatasetsPost[0].sample, "newSample");
+        assertEq(_allDatasetsPost[0].price, 1000);
+        assertEq(uint256(_allDatasetsPost[0].visibility), 1);
         // still owns it
-        assertEq(_personalDatasetsPost[0].owner, userOne);
+        assertEq(_allDatasetsPost[0].owner, userOne);
     }
 
     function testCantUpdateOthersDataset() public {
