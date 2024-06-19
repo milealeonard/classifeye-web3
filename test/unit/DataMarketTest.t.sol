@@ -5,36 +5,15 @@ pragma solidity ^0.8.18;
 import {Test, console} from "forge-std/Test.sol";
 import {DeployDataMarket} from "../../script/DeployDataMarket.s.sol";
 import {DataMarket} from "../../src/DataMarket.sol";
+import {DataMarketBaseTest} from "../DataMarketBaseTest.t.sol";
 
-
-contract DataMarketUnitTest is Test {
-    DataMarket dataMarket;
-    address userOne = makeAddr("userOne");
-    address userTwo = makeAddr("userTwo");
-
-    function setUp() public {
-        DeployDataMarket deployer = new DeployDataMarket();
-        address dataMarketAddy = deployer.run();
-        dataMarket = DataMarket(dataMarketAddy);
-    }
+contract DataMarketUnitTest is DataMarketBaseTest {
 
     function testInit() public view {
         // listing datasets should be empty
         DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
         assertEq(_datasets.length, 0);
     }
-
-	function _createDataset(address user, uint256 visibility) internal {
-		vm.prank(user);
-        dataMarket.createDataset({
-            _name: "name",
-            _description: "description",
-            _data: "data",
-            _sample: "sample",
-            _price: 100,
-            _visibility: visibility
-        });
-	}
 
     function testCreateDataset() public {
         // when we create a dataset
