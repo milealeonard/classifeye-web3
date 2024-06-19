@@ -5,8 +5,12 @@ import {
   CreateCSVProps,
   CreateDatasetProps,
   Dataset,
+  EncryptedDataAndSample,
+  GREATERTHAN10TOLETTER,
+  ImgNameAndUrl,
   MAX_SAMPLE_SIZE_COUNT,
   ProviderAndAccountKey,
+  UnzippedContent,
   UpdateDatasetProps,
 } from "../constants";
 import * as sigUtil from "@metamask/eth-sig-util";
@@ -114,7 +118,7 @@ export const decryptAndView = async ({
 }: {
   cid: string;
   account;
-}) => {
+}): Promise<UnzippedContent> => {
   const res = await fetch(`https://gateway.pinata.cloud/ipfs/${cid}`);
   const resultJson: EthEncryptedData = await res.json();
   // @ts-ignore
@@ -128,8 +132,45 @@ export const decryptAndView = async ({
   if (!decryptedData) {
     return;
   }
-  return await unzipFile(decryptedData);
-  //   setFilesToView(imgUrls);
+
+  return await unzipFiles(decryptedData);
+};
+
+export const parseLabelsFromClassifile = (
+  classifiles: ClassiFile[]
+): string[] => {
+  const allLabels = [];
+  classifiles.forEach((file: ClassiFile) => {
+    file.classif.split(", ").forEach((label: string) => {
+      if (label && !allLabels.includes(label)) {
+        allLabels.push(label);
+      }
+    });
+  });
+  return allLabels;
+};
+
+export const decryptDataset = async ({
+  cid,
+  account,
+}: {
+  cid: string;
+  account;
+}): Promise<ClassiFile | undefined> => {
+  const res = await fetch(`https://gateway.pinata.cloud/ipfs/${cid}`);
+  const resultJson: EthEncryptedData = await res.json();
+  // @ts-ignore
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+  const decryptedData = await decrypt({
+    text: JSON.stringify(resultJson),
+    provider,
+    account,
+  });
+  if (!decryptedData) {
+    return;
+  }
+  const { imgUrls } = await unzipFiles(decryptedData);
 };
 
 export const decryptAndDownload = async ({
@@ -180,20 +221,63 @@ const zipFiles = async (files) => {
   return zippedContent;
 };
 
-export const unzipFile = async (base64String) => {
+export const unzipFiles = async (base64String): Promise<UnzippedContent> => {
   const zip = new JSZip();
   const content = await zip.loadAsync(base64String, { base64: true });
-  const imgUrls = [];
+  const imgs: ImgNameAndUrl[] = [];
+
+  let lines = null;
+  const files: ClassiFile[] = [];
 
   for (const fileName in content.files) {
     if (/\.(png|jpg|jpeg|gif)$/i.test(fileName)) {
       const imgData = await content.files[fileName].async("blob");
-      imgUrls.push(URL.createObjectURL(imgData));
+      imgs.push({
+        blobby: new File([imgData], fileName, { type: imgData.type }),
+        url: URL.createObjectURL(imgData),
+        name: fileName,
+      });
+    } else if (/\.(csv)$/i.test(fileName)) {
+      const textData = await content.files[fileName].async("text");
+      lines = textData.split("\n");
     }
   }
 
-  return imgUrls;
+  if (lines) {
+    // start on 1 to skip the img
+    for (let i = 1; i < lines.length; i++) {
+      const currLine = lines[i].split(", ");
+      if (!currLine) {
+        continue;
+      }
+
+      const grader = currLine[0];
+      const imageName = currLine[1];
+      const classifs = currLine[2];
+      const foundImg = imgs.find(
+        (img: ImgNameAndUrl) => img.name === imageName
+      );
+      if (!foundImg) {
+        console.log("couldn't find img");
+        console.log(imageName, imgs);
+        continue;
+      }
+      files.push({
+        blobby: foundImg.blobby,
+        content: foundImg.url,
+        name: foundImg.name,
+        grader: grader,
+        classif: classifs.replace(/\[|\]/g, ""),
+      });
+    }
+  }
+
+  return {
+    imgUrls: imgs.map((img: ImgNameAndUrl) => img.url),
+    files: files,
+  };
 };
+
 function base64ToBlob({
   base64String,
   contentType,
@@ -269,28 +353,12 @@ export const createDataset = async ({
   grader,
   images,
 }: CreateDatasetProps): Promise<Dataset> => {
-  let publicKey = publicKeyProp;
-  if (!publicKey) {
-    const retVal = await initiateWalletConnection();
-    publicKey = retVal.key;
-  }
-  const csvFile = createCSVFile({
-    grader,
-    images,
-  });
-  //   TODO actually real one
-  const imagesToZip = images.map((img) => img.blobby);
-  const sampleFilesToZip = imagesToZip.slice(0, MAX_SAMPLE_SIZE_COUNT);
-  const filesToZip = [...imagesToZip.slice(0, MAX_SAMPLE_SIZE_COUNT), csvFile];
-
-  const createdSampleCid = await uploadFiles(sampleFilesToZip);
-  const createdDatasetCid = await encryptAndUploadFiles(publicKey, filesToZip);
+  const { data: createdDatasetCid, sample: createdSampleCid } =
+    await encryptAndZipData({ grader, images, publicKeyProp });
 
   // @ts-ignore
   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const provider = new ethers.providers.JsonRpcProvider(
-  //     "http://127.0.0.1/7545"
-  //   );
+
   await provider.send("eth_requestAccounts", []);
   const signer = await provider.getSigner();
   const dataMarketContract = getDataMarketContract(signer);
@@ -312,6 +380,32 @@ export const createDataset = async ({
     price: BigInt(_datasetPrice),
     visibility: _datasetVisibility,
   };
+};
+
+export const encryptAndZipData = async ({
+  grader,
+  images,
+  publicKeyProp,
+}: CreateCSVProps): Promise<EncryptedDataAndSample> => {
+  let publicKey = publicKeyProp;
+  if (!publicKey) {
+    const retVal = await initiateWalletConnection();
+    publicKey = retVal.key;
+  }
+  const csvFile = createCSVFile({
+    grader,
+    images,
+  });
+
+  const imagesToZip = images.map((img) => img.blobby);
+  const sampleFilesToZip = imagesToZip.slice(0, MAX_SAMPLE_SIZE_COUNT);
+  const filesToZip = [...imagesToZip.slice(0, MAX_SAMPLE_SIZE_COUNT), csvFile];
+
+  const createdSampleCid = await uploadFiles(sampleFilesToZip);
+  const createdDatasetCid = await encryptAndUploadFiles(publicKey, filesToZip);
+  console.log(createdDatasetCid, filesToZip);
+
+  return { sample: createdSampleCid, data: createdDatasetCid };
 };
 
 const uploadFiles = async (filesToUpload): Promise<string | undefined> => {
@@ -429,4 +523,16 @@ export const userOwnsDataset = (
   return accounts.some(
     (address: string) => address.toLowerCase() === dataset.owner.toLowerCase()
   );
+};
+
+/**
+ * silly util to do some sort of hex representation to show which index item it is for user
+ */
+export const getShowableIndex = (index: number): string | undefined => {
+  if (GREATERTHAN10TOLETTER.has(index)) {
+    return GREATERTHAN10TOLETTER.get(index);
+  } else if (index < 10) {
+    return (index + 1).toString();
+  }
+  return undefined;
 };
