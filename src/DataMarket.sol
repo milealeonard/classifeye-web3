@@ -10,10 +10,9 @@ import {console} from "forge-std/console.sol";
  * @notice
  */
 contract DataMarket {
-
-	event DatasetCreated(address indexed creator, uint256 indexed datasetIndex);
-	event DatasetUpdated(address indexed creator, uint256 indexed datasetIndex);
-	event DatasetPurchased(address indexed purchaser, address indexed purchasedFrom, uint256 indexed datasetIndex);
+    event DatasetCreated(address indexed creator, uint256 indexed datasetIndex);
+    event DatasetUpdated(address indexed creator, uint256 indexed datasetIndex);
+    event DatasetPurchased(address indexed purchaser, address indexed purchasedFrom, uint256 indexed datasetIndex);
 
     error DataMarket__OwnerDoesntOwnDataset();
     error DataMarket__DatasetIsntPublicToBuy();
@@ -59,25 +58,25 @@ contract DataMarket {
         uint256 newDatasetIdx = s_datasets.length;
         s_datasets.push(dataset);
         s_userToDatasets[msg.sender].push(newDatasetIdx);
-		emit DatasetCreated(msg.sender, newDatasetIdx);
+        emit DatasetCreated(msg.sender, newDatasetIdx);
     }
 
     function listAllDatasets() public view returns (Dataset[] memory) {
-		address requester = msg.sender;
+        address requester = msg.sender;
         uint256 numDatasets = s_datasets.length;
-		Dataset[] memory publicDatasets = new Dataset[](numDatasets);
+        Dataset[] memory publicDatasets = new Dataset[](numDatasets);
 
-		Dataset memory blankDataset;
-		blankDataset.name = "private";
+        Dataset memory blankDataset;
+        blankDataset.name = "private";
 
         for (uint256 i = 0; i < numDatasets; i++) {
-			Dataset memory currDataset = s_datasets[i];
+            Dataset memory currDataset = s_datasets[i];
             if (currDataset.visibility == DatasetVisibility.PUBLIC || currDataset.owner == requester) {
                 publicDatasets[i] = currDataset;
             } else {
-				// if dataset isn't public just append an empty one
-				publicDatasets[i] = blankDataset;
-			}
+                // if dataset isn't public just append an empty one
+                publicDatasets[i] = blankDataset;
+            }
         }
 
         return publicDatasets;
@@ -153,13 +152,22 @@ contract DataMarket {
             revert DataMarket__OwnerDoesntOwnDataset();
         }
 
-        // if valid, then transfer the money
-        (bool successFromContract,) = payable(address(currOwner)).call{value: msgValue}("");
+        // if valid, then transfer the money (only the exact value)
+        (bool successFromContract,) = payable(address(currOwner)).call{value: _dataset.price}("");
         if (!successFromContract) {
             revert DataMarket__TransferDidntGoThrough();
         }
 
-		emit DatasetPurchased(msg.sender, currOwner, _datasetIndex);
+        uint256 excessMoneysSent = msgValue - _dataset.price;
+        if (excessMoneysSent > 0) {
+            // and if sender sent too much money, give it back
+            (bool successSendingBack,) = payable(address(msg.sender)).call{value: excessMoneysSent}("");
+            if (!successSendingBack) {
+                revert DataMarket__TransferDidntGoThrough();
+            }
+        }
+
+        emit DatasetPurchased(msg.sender, currOwner, _datasetIndex);
 
         s_datasets[_datasetIndex].owner = msg.sender;
         // then transfer the ownership in the contract
@@ -190,9 +198,9 @@ contract DataMarket {
         _dataset.visibility = DatasetVisibility(newVisibility);
 
         s_datasets[index] = _dataset;
-		emit DatasetUpdated(msg.sender, index);
+        emit DatasetUpdated(msg.sender, index);
     }
 
-	// TODO: would be nice to make dataset owners pay for it
+    // TODO: would be nice to make dataset owners pay for it
     function reviewDataset(uint256 datasetIndex, uint256 rating, string memory review) public {}
 }
