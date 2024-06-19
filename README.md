@@ -1,66 +1,15 @@
-## Foundry
+## Abstract
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Fun little project which takes an existing project to do image classification dataset labelling, and transforms it into:
 
-Foundry consists of:
+1. using decentralized protocols to store your datasets in a secure private way
+2. a dataset market (soon to come) where you can purchase datasets that other people have annotated.
+   a. There is a review system by which people's datasets can be reviewed so you can gain some trust in somebody's dataset labelling + collection.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## Techs used
 
-## Documentation
+- IPFS for dataset storage
+- Metamask for dataset encryption + decryption
+- Built on the EVM for actual dataset ownership tracking + purchasing. Using solidity.
 
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
-
-### Test
-
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+Frontend built with tailwind, Next.js, React, Typescript.
