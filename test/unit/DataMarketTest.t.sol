@@ -3,10 +3,11 @@
 pragma solidity ^0.8.18;
 
 import {Test, console} from "forge-std/Test.sol";
-import {DeployDataMarket} from "../script/DeployDataMarket.s.sol";
-import {DataMarket} from "../src/DataMarket.sol";
+import {DeployDataMarket} from "../../script/DeployDataMarket.s.sol";
+import {DataMarket} from "../../src/DataMarket.sol";
 
-contract DataMarketTest is Test {
+
+contract DataMarketUnitTest is Test {
     DataMarket dataMarket;
     address userOne = makeAddr("userOne");
     address userTwo = makeAddr("userTwo");
@@ -23,17 +24,24 @@ contract DataMarketTest is Test {
         assertEq(_datasets.length, 0);
     }
 
-    function testCreateDataset() public {
-        // when we create a dataset
-        vm.prank(userOne);
+	function _createDataset(address user, uint256 visibility) internal {
+		vm.prank(user);
         dataMarket.createDataset({
             _name: "name",
             _description: "description",
             _data: "data",
             _sample: "sample",
             _price: 100,
-            _visibility: 1
+            _visibility: visibility
         });
+	}
+
+    function testCreateDataset() public {
+        // when we create a dataset
+		vm.expectEmit();
+		// ensure we emit the datasetcreated event
+		emit DataMarket.DatasetCreated(userOne, 0);
+		_createDataset(userOne, 1);
 
         DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
         assertEq(_datasets.length, 1);
@@ -46,15 +54,7 @@ contract DataMarketTest is Test {
 
     function testCannotViewPrivateDataset() public {
         // when we create a dataset
-        vm.prank(userOne);
-        dataMarket.createDataset({
-            _name: "name",
-            _description: "description",
-            _data: "data",
-            _sample: "sample",
-            _price: 100,
-            _visibility: 0
-        });
+        _createDataset(userOne, 0);
 
         DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
         assertEq(_datasets.length, 1);
@@ -74,15 +74,7 @@ contract DataMarketTest is Test {
 
     function testPurchaseDataset() public {
         // first, user one has a dataset available for purchase
-        vm.prank(userOne);
-        dataMarket.createDataset({
-            _name: "name",
-            _description: "description",
-            _sample: "sample",
-            _data: "data",
-            _price: 100,
-            _visibility: 1
-        });
+        _createDataset(userOne, 1);
 
         // ensure the public dataset exists
         DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
@@ -92,6 +84,9 @@ contract DataMarketTest is Test {
         // then when userTwo tries to buy it he can
         vm.prank(userTwo);
         vm.deal(userTwo, 100);
+		vm.expectEmit();
+		// ensure we emit the datasetcreated event
+		emit DataMarket.DatasetPurchased(userTwo, userOne, 0);
         dataMarket.purchaseDataset{value: 100}(0);
 
         // money assertions
@@ -106,15 +101,7 @@ contract DataMarketTest is Test {
 
     function testCantPurchasePrivateDataset() public {
         // first, user one has a dataset available for purchase
-        vm.prank(userOne);
-        dataMarket.createDataset({
-            _name: "name",
-            _description: "description",
-            _data: "data",
-            _sample: "sample",
-            _price: 100,
-            _visibility: 0
-        });
+		_createDataset(userOne, 0);
 
         // then when userTwo tries to buy it he can
         vm.prank(userTwo);
@@ -125,37 +112,24 @@ contract DataMarketTest is Test {
 
     function testCantPurchaseWithoutEnoughMoney() public {
         // first, user one has a dataset available for purchase
-        vm.prank(userOne);
-        dataMarket.createDataset({
-            _name: "name",
-            _description: "description",
-            _data: "data",
-            _sample: "sample",
-            _price: 100,
-            _visibility: 1
-        });
+		_createDataset(userOne, 1);
 
         // then when userTwo tries to buy it he can
         vm.prank(userTwo);
         vm.deal(userTwo, 99);
         vm.expectRevert();
         dataMarket.purchaseDataset{value: 99}(0);
+		assertEq(userTwo.balance, 99);
     }
 
     function testUpdateDatasetSimply() public {
         // when you create a dataset
-        vm.prank(userOne);
-        dataMarket.createDataset({
-            _name: "name",
-            _description: "description",
-            _data: "data",
-            _sample: "sample",
-            _price: 100,
-            _visibility: 0
-        });
+        _createDataset(userOne, 0);
 
         // then when you update it
         vm.prank(userOne);
+		vm.expectEmit();
+		emit DataMarket.DatasetUpdated(userOne, 0);
         dataMarket.updateDataset({
             index: 0,
             newName: "newName",
@@ -180,16 +154,8 @@ contract DataMarketTest is Test {
     }
 
     function testCantUpdateOthersDataset() public {
-        // when you create a dataset
-        vm.prank(userTwo);
-        dataMarket.createDataset({
-            _name: "name",
-            _description: "description",
-            _data: "data",
-            _sample: "sample",
-            _price: 100,
-            _visibility: 1
-        });
+        // when you create a public dataset
+        _createDataset(userTwo, 1);
 
         // ensure we have a dataset
         DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
