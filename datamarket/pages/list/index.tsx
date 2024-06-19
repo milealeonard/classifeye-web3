@@ -3,6 +3,7 @@ import { ListDatasets } from "../components/ListDatasets";
 import { Dataset } from "../constants";
 import { getDataMarketContract } from "../utils/DataContractUtils";
 import { ethers } from "ethers";
+import { NavBar } from "../components/NavBar";
 
 const Home = (): React.ReactElement => {
   const [datasets, setDatasets] = React.useState<Dataset[] | undefined>(
@@ -41,9 +42,11 @@ const Home = (): React.ReactElement => {
   }
 
   return (
-    <div className="flex flex-col items-center w-6/12 gap-4 pt-4">
-      <h3>Datasets</h3>
-      <ListDatasets datasets={datasets} accounts={accounts} />
+    <div className="flex flex-col items-center w-full gap-4 h-screen">
+      <NavBar title="Datasets" />
+      <div>
+        <ListDatasets datasets={datasets} accounts={accounts} />
+      </div>
     </div>
   );
 };
