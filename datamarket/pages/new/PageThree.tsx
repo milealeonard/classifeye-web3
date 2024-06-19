@@ -3,36 +3,8 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { ClassiFile } from "../constants";
 import { Button } from "../components/Button";
 import { TextField } from "../components/TextField";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-const greaterThan10ToLetter = new Map<number, string>([
-  [9, "a"],
-  [10, "b"],
-  [11, "c"],
-  [12, "d"],
-  [13, "e"],
-  [14, "f"],
-  [15, "g"],
-  [16, "h"],
-  [17, "i"],
-  [18, "j"],
-  [19, "k"],
-  [20, "l"],
-  [21, "m"],
-  [22, "n"],
-  [23, "o"],
-  [24, "p"],
-  [25, "q"],
-]);
-
-const getShowableIndex = (index: number): string | undefined => {
-  if (greaterThan10ToLetter.has(index)) {
-    return greaterThan10ToLetter.get(index);
-  } else if (index < 10) {
-    return (index + 1).toString();
-  }
-  return undefined;
-};
+import { getShowableIndex } from "../utils/utils";
 
 export const PageThree = ({
   labels,
@@ -121,10 +93,7 @@ export const PageThree = ({
   });
 
   if (!images.length) {
-    return (
-      //   <Typography component="span" variant="body1">
-      <p>Error</p>
-    );
+    return <p>Error</p>;
   }
 
   return (
@@ -160,28 +129,11 @@ export const PageThree = ({
                 display: "block",
                 padding: "4px",
                 borderRadius: "4px",
-                // ":hover": {
-                //   cursor: "pointer",
-                //   background: "rgba(200, 156, 84, 0.1)",
-                // },
               }}
             >
-              {/* <Tooltip title={label} placement="right"> */}
-              {/* <Typography
-                  overflow="hidden"
-                  textOverflow="ellipsis"
-                  component="span"
-                  variant="body1"
-                  display="block"
-                  paddingX="4px"
-                  whiteSpace="nowrap"
-                  color={muiXTheme.palette.primary.main}
-                > */}
               <p>
                 {indexToShow ? `${indexToShow}: ${label}` : "Too many labels"}
               </p>
-              {/* </Typography> */}
-              {/* </Tooltip> */}
             </div>
           );
         })}
@@ -210,7 +162,7 @@ export const PageThree = ({
           <KeyboardBackspaceIcon />
         </Button>
         <Button onClick={nextImage}>
-          <ArrowRightAltIcon />
+          <KeyboardBackspaceIcon sx={{ transform: "rotate(180deg)" }} />
         </Button>
       </div>
       <div className="flex flex-row gap-2">
@@ -223,36 +175,6 @@ export const PageThree = ({
         />
         <Button onClick={(): void => setCurrClassif("")}>Clear</Button>
       </div>
-      {/* <TextField
-        onChange={(event) => {
-          setCurrClassif(event.target.value ?? "");
-        }}
-        disabled
-        value={currClassif}
-        placeholder="Label"
-        sx={{
-          "& input.Mui-disabled": {
-            background: "transparent",
-            color: "white",
-            WebkitTextFillColor: "white",
-            border: "1px solid rgba(0, 0, 0, 0.42)",
-          },
-        }}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <CloseIcon
-                onClick={(): void => setCurrClassif("")}
-                sx={{
-                  ":hover": { cursor: "pointer" },
-                  height: "20px",
-                  width: "20px",
-                }}
-              />
-            </InputAdornment>
-          ),
-        }}
-      /> */}
     </div>
   );
 };

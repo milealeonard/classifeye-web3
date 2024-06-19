@@ -5,9 +5,7 @@ import { getDataMarketContract } from "./utils/DataContractUtils";
 import { ethers } from "ethers";
 import { useRouter } from "next/router";
 import { Button } from "./components/Button";
-
-const DEFAULT_HOME_CLASSNAME =
-  "w-full min-h-screen m-auto flex flex-col justify-center items-center gap-2";
+import { DEFAULT_HOME_CLASSNAME } from "@/styles/theme";
 
 const Home = (): React.ReactElement => {
   const [datasets, setDatasets] = React.useState<Dataset[] | undefined>(
@@ -53,7 +51,7 @@ const Home = (): React.ReactElement => {
   }
 
   return (
-    <main className={DEFAULT_HOME_CLASSNAME}>
+    <div className={DEFAULT_HOME_CLASSNAME}>
       <p>Welcome!</p>
       {!!datasets.length ? (
         <Button onClick={() => router.push("/my-datasets")}>
@@ -63,7 +61,7 @@ const Home = (): React.ReactElement => {
         <p>You don't have any projects yet...</p>
       )}
       <Button onClick={() => router.push("/new")}>+ New</Button>
-    </main>
+    </div>
   );
 };
 

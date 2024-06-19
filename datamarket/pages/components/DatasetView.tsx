@@ -1,4 +1,5 @@
 import React from "react";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { Dataset } from "../constants";
 import DownloadIcon from "@mui/icons-material/Download";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -6,9 +7,8 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   decryptAndDownload,
-  decryptAndView,
   purchaseDataset,
-  unzipFile,
+  unzipFiles,
   userOwnsDataset,
 } from "../utils/utils";
 import { Button } from "./Button";
@@ -48,7 +48,8 @@ export const DatasetView = ({
             `https://gateway.pinata.cloud/ipfs/${dataset.sample}`
           );
           const resJson = await res.json();
-          setImgUrls(await unzipFile(resJson));
+          const { imgUrls: unzippedUrls } = await unzipFiles(resJson);
+          setImgUrls(unzippedUrls);
         }
       } finally {
         setImgsLoading(false);
@@ -66,6 +67,9 @@ export const DatasetView = ({
 
   const navToUpdate = (): void => {
     router.push(`update/${publicIndex}`);
+  };
+  const navToResume = (): void => {
+    router.push(`resume/${publicIndex}`);
   };
 
   const downloadDataset = (): void => {
@@ -98,6 +102,17 @@ export const DatasetView = ({
             ) : (
               <VisibilityIcon sx={{ width: "12px", height: "12px" }} />
             )}
+          </Button>
+        )}
+        {isOwner && publicIndex !== undefined && (
+          <Button onClick={navToResume}>
+            <KeyboardBackspaceIcon
+              sx={{
+                transform: "rotate(180deg)",
+                width: "12px",
+                height: "12px",
+              }}
+            />
           </Button>
         )}
         {/* </div> */}

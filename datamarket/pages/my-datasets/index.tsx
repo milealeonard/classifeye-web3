@@ -42,7 +42,7 @@ const MyDatasets = (): React.ReactElement => {
 
   return (
     // <div className="flex flex-col items-center gap-2 w-6/12 border border-red-500">
-    <div className="flex flex-col items-center w-6/12 gap-4 pt-4">
+    <div className="flex flex-col items-center w-6/12 gap-4 pt-4 h-screen">
       <h3>My Datasets</h3>
       <ListDatasets forOwnersOnly datasets={datasets} accounts={accounts} />
     </div>
