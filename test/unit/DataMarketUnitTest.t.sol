@@ -8,7 +8,6 @@ import {DataMarket} from "../../src/DataMarket.sol";
 import {DataMarketBaseTest} from "../DataMarketBaseTest.t.sol";
 
 contract DataMarketUnitTest is DataMarketBaseTest {
-
     function testInit() public view {
         // listing datasets should be empty
         DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
@@ -17,10 +16,10 @@ contract DataMarketUnitTest is DataMarketBaseTest {
 
     function testCreateDataset() public {
         // when we create a dataset
-		vm.expectEmit();
-		// ensure we emit the datasetcreated event
-		emit DataMarket.DatasetCreated(userOne, 0);
-		_createDataset(userOne, 1);
+        vm.expectEmit();
+        // ensure we emit the datasetcreated event
+        emit DataMarket.DatasetCreated(userOne, 0);
+        _createDataset(userOne, 1, "name");
 
         DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
         assertEq(_datasets.length, 1);
@@ -33,11 +32,11 @@ contract DataMarketUnitTest is DataMarketBaseTest {
 
     function testCannotViewPrivateDataset() public {
         // when we create a dataset
-        _createDataset(userOne, 0);
+        _createDataset(userOne, 0, "name");
 
         DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
         assertEq(_datasets.length, 1);
-		assertEq(_datasets[0].name, "private");
+        assertEq(_datasets[0].name, "private");
 
         // however you should be able to see your own
         vm.prank(userOne);
@@ -53,7 +52,7 @@ contract DataMarketUnitTest is DataMarketBaseTest {
 
     function testPurchaseDataset() public {
         // first, user one has a dataset available for purchase
-        _createDataset(userOne, 1);
+        _createDataset(userOne, 1, "name");
 
         // ensure the public dataset exists
         DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
@@ -63,9 +62,9 @@ contract DataMarketUnitTest is DataMarketBaseTest {
         // then when userTwo tries to buy it he can
         vm.prank(userTwo);
         vm.deal(userTwo, 100);
-		vm.expectEmit();
-		// ensure we emit the datasetcreated event
-		emit DataMarket.DatasetPurchased(userTwo, userOne, 0);
+        vm.expectEmit();
+        // ensure we emit the datasetcreated event
+        emit DataMarket.DatasetPurchased(userTwo, userOne, 0);
         dataMarket.purchaseDataset{value: 100}(0);
 
         // money assertions
@@ -80,7 +79,7 @@ contract DataMarketUnitTest is DataMarketBaseTest {
 
     function testCantPurchasePrivateDataset() public {
         // first, user one has a dataset available for purchase
-		_createDataset(userOne, 0);
+        _createDataset(userOne, 0, "name");
 
         // then when userTwo tries to buy it he can
         vm.prank(userTwo);
@@ -91,24 +90,38 @@ contract DataMarketUnitTest is DataMarketBaseTest {
 
     function testCantPurchaseWithoutEnoughMoney() public {
         // first, user one has a dataset available for purchase
-		_createDataset(userOne, 1);
+        _createDataset(userOne, 1, "name");
 
         // then when userTwo tries to buy it he can
         vm.prank(userTwo);
         vm.deal(userTwo, 99);
         vm.expectRevert();
         dataMarket.purchaseDataset{value: 99}(0);
-		assertEq(userTwo.balance, 99);
+        assertEq(userTwo.balance, 99);
+    }
+
+    function testCanPurchaseWithTooMuchMoney() public {
+        // first, user one has a dataset available for purchase
+        _createDataset(userOne, 1, "name");
+
+        // then when userTwo tries to buy it he can
+        vm.prank(userTwo);
+        vm.deal(userTwo, 101);
+        dataMarket.purchaseDataset{value: 101}(0);
+
+        // then userTwo still has 1 money left, and userOne has 100 moneys
+        assertEq(userTwo.balance, 1);
+        assertEq(userOne.balance, 100);
     }
 
     function testUpdateDatasetSimply() public {
         // when you create a dataset
-        _createDataset(userOne, 0);
+        _createDataset(userOne, 0, "name");
 
         // then when you update it
         vm.prank(userOne);
-		vm.expectEmit();
-		emit DataMarket.DatasetUpdated(userOne, 0);
+        vm.expectEmit();
+        emit DataMarket.DatasetUpdated(userOne, 0);
         dataMarket.updateDataset({
             index: 0,
             newName: "newName",
@@ -134,7 +147,7 @@ contract DataMarketUnitTest is DataMarketBaseTest {
 
     function testCantUpdateOthersDataset() public {
         // when you create a public dataset
-        _createDataset(userTwo, 1);
+        _createDataset(userTwo, 1, "name");
 
         // ensure we have a dataset
         DataMarket.Dataset[] memory _datasets = dataMarket.listAllDatasets();
