@@ -11,5 +11,6 @@ Fun little project which takes an existing project to do image classification da
 - IPFS for dataset storage
 - Metamask for dataset encryption + decryption
 - Built on the EVM for actual dataset ownership tracking + purchasing. Using solidity.
+- UUPS upgradable contract for initial deployment. Can transfer ownership until things are stable, and then will implement a contract that is no longer upgradable.
 
 Frontend built with tailwind, Next.js, React, Typescript.
