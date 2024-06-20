@@ -2,14 +2,14 @@
 
 pragma solidity ^0.8.18;
 
+
+import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import {console} from "forge-std/console.sol";
 
-/**
- * struct info:
- * @author
- * @notice
- */
-contract DataMarket {
+
+contract DataMarket is Initializable, OwnableUpgradeable, UUPSUpgradeable{
     event DatasetCreated(address indexed creator, uint256 indexed datasetIndex);
     event DatasetUpdated(address indexed creator, uint256 indexed datasetIndex);
     event DatasetPurchased(address indexed purchaser, address indexed purchasedFrom, uint256 indexed datasetIndex);
@@ -39,50 +39,29 @@ contract DataMarket {
     Dataset[] private s_datasets;
     mapping(address user => uint256[] ownedDatasets) private s_userToDatasets;
 
-    function createDataset(
-        string memory _name,
-        string memory _description,
-        string memory _data,
-        string memory _sample,
-        uint256 _price,
-        uint256 _visibility
-    ) public {
-        Dataset memory dataset;
-        dataset.name = _name;
-        dataset.description = _description;
-        dataset.data = _data;
-        dataset.sample = _sample;
-        dataset.price = _price;
-        dataset.owner = msg.sender;
-        dataset.visibility = DatasetVisibility(_visibility);
-        uint256 newDatasetIdx = s_datasets.length;
-        s_datasets.push(dataset);
-        s_userToDatasets[msg.sender].push(newDatasetIdx);
-        emit DatasetCreated(msg.sender, newDatasetIdx);
+	/// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() {
+        _disableInitializers();
     }
 
-    function listAllDatasets() public view returns (Dataset[] memory) {
-        address requester = msg.sender;
-        uint256 numDatasets = s_datasets.length;
-        Dataset[] memory publicDatasets = new Dataset[](numDatasets);
-
-        Dataset memory blankDataset;
-        blankDataset.name = "private";
-
-        for (uint256 i = 0; i < numDatasets; i++) {
-            Dataset memory currDataset = s_datasets[i];
-            if (currDataset.visibility == DatasetVisibility.PUBLIC || currDataset.owner == requester) {
-                publicDatasets[i] = currDataset;
-            } else {
-                // if dataset isn't public just append an empty one
-                publicDatasets[i] = blankDataset;
-            }
-        }
-
-        return publicDatasets;
+	/**
+	 * Upgradable helpers
+	 */
+	function initialize(address initialOwner) initializer public {
+        __Ownable_init(initialOwner);
+        __UUPSUpgradeable_init();
     }
 
-    function _addressOwnsDataset(address _refOwner, uint256 _datasetIndex)
+	function version() public pure returns (uint256) {
+        return 1;
+    }
+
+    function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
+	
+	//////////////
+	// Internal //
+	//////////////
+	function _addressOwnsDataset(address _refOwner, uint256 _datasetIndex)
         internal
         view
         returns (bool, uint256[] memory)
@@ -126,6 +105,87 @@ contract DataMarket {
         return newOwnedDatasets;
     }
 
+	/**
+	 * Create
+	 */
+    function createDataset(
+        string memory _name,
+        string memory _description,
+        string memory _data,
+        string memory _sample,
+        uint256 _price,
+        uint256 _visibility
+    ) public {
+        Dataset memory dataset;
+        dataset.name = _name;
+        dataset.description = _description;
+        dataset.data = _data;
+        dataset.sample = _sample;
+        dataset.price = _price;
+        dataset.owner = msg.sender;
+        dataset.visibility = DatasetVisibility(_visibility);
+        uint256 newDatasetIdx = s_datasets.length;
+        s_datasets.push(dataset);
+        s_userToDatasets[msg.sender].push(newDatasetIdx);
+        emit DatasetCreated(msg.sender, newDatasetIdx);
+    }
+
+	/**
+	 * List
+	 */
+    function listAllDatasets() public view returns (Dataset[] memory) {
+        address requester = msg.sender;
+        uint256 numDatasets = s_datasets.length;
+        Dataset[] memory publicDatasets = new Dataset[](numDatasets);
+
+        Dataset memory blankDataset;
+        blankDataset.name = "private";
+
+        for (uint256 i = 0; i < numDatasets; i++) {
+            Dataset memory currDataset = s_datasets[i];
+            if (currDataset.visibility == DatasetVisibility.PUBLIC || currDataset.owner == requester) {
+                publicDatasets[i] = currDataset;
+            } else {
+                // if dataset isn't public just append an empty one
+                publicDatasets[i] = blankDataset;
+            }
+        }
+
+        return publicDatasets;
+    }
+
+	/**
+	 * Update
+	 */
+    function updateDataset(
+        uint256 index,
+        string memory newName,
+        string memory newDescription,
+        string memory newData,
+        string memory newSample,
+        uint256 newPrice,
+        uint256 newVisibility
+    ) public {
+        Dataset memory _dataset = s_datasets[index];
+        if (_dataset.owner != msg.sender) {
+            revert DataMarket__SenderDoesntOwnDataset();
+        }
+
+        _dataset.name = newName;
+        _dataset.description = newDescription;
+        _dataset.data = newData;
+        _dataset.sample = newSample;
+        _dataset.price = newPrice;
+        _dataset.visibility = DatasetVisibility(newVisibility);
+
+        s_datasets[index] = _dataset;
+        emit DatasetUpdated(msg.sender, index);
+    }
+
+	/**
+	 * Purchase
+	 */
+	// todo no reentrancy
     function purchaseDataset(uint256 _datasetIndex) public payable {
         // first ensure the request is sound/valid
         Dataset memory _dataset = s_datasets[_datasetIndex];
@@ -176,31 +236,6 @@ contract DataMarket {
         s_userToDatasets[msg.sender].push(_datasetIndex);
     }
 
-    function updateDataset(
-        uint256 index,
-        string memory newName,
-        string memory newDescription,
-        string memory newData,
-        string memory newSample,
-        uint256 newPrice,
-        uint256 newVisibility
-    ) public {
-        Dataset memory _dataset = s_datasets[index];
-        if (_dataset.owner != msg.sender) {
-            revert DataMarket__SenderDoesntOwnDataset();
-        }
-
-        _dataset.name = newName;
-        _dataset.description = newDescription;
-        _dataset.data = newData;
-        _dataset.sample = newSample;
-        _dataset.price = newPrice;
-        _dataset.visibility = DatasetVisibility(newVisibility);
-
-        s_datasets[index] = _dataset;
-        emit DatasetUpdated(msg.sender, index);
-    }
-
     // TODO: would be nice to make dataset owners pay for it
-    function reviewDataset(uint256 datasetIndex, uint256 rating, string memory review) public {}
+    // function reviewDataset(uint256 datasetIndex, uint256 rating, string memory review) public {}
 }
