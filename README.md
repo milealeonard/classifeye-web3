@@ -30,7 +30,7 @@ Frontend built with tailwind, Next.js, React, Typescript.
 
 - in tab number 1, open up anvil with `anvil`
 
-- in another tab, run:
+- in another tab, from the root dir (ie `datamarket`) run:
 
 ```
 forge script script/DeployDataMarket.s.sol --rpc-url http://127.0.0.1:7545 --broadcast --private-key {GET_ANY_PRIVATE_KEY_FROM_ANVIL}
@@ -41,5 +41,5 @@ Note it's ok to expose private key here ONLY because private key is a default an
 - go to metamask, add the network of http://127.0.0.1:7545 with a chainid of 31337 and symbol of ETH.
 - add the metamask wallet by importing new wallet with PK=PK you used above
 
-4. open up your frontend. run:
+4. open up your frontend. from the frontend dir (ie `datamarket/datamarket`) run:
    `npm run dev`. Then go to `http://localhost:3000`.
