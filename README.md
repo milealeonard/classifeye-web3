@@ -6,6 +6,10 @@ Fun little project which takes an existing project to do image classification da
 2. a dataset market (soon to come) where you can purchase datasets that other people have annotated.
    a. There is a review system by which people's datasets can be reviewed so you can gain some trust in somebody's dataset labelling + collection.
 
+You can view the website here:
+https://classifeye-web3.vercel.app/
+Will need a metamask connected to sepolia to view.
+
 ### Callouts
 
 This is NOT a project about fantastic web design haha, it is quite awful.
