@@ -98,7 +98,7 @@ export enum DatasetVisibility {
 // Constants //
 ///////////////
 
-export const DATAMARKET_ADDY = "0x6ed2C4782E10bf3645986f33d6972068b5DC4488";
+export const DATAMARKET_ADDY = "0x5EDB4CB5b94bE5EaAc2f1d63c41b0EFcc62547A8";
 
 /**
  * Number of images to include from the dataset as a sample size
