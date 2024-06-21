@@ -1,14 +1,14 @@
-import React, { FC } from "react";
+import React from "react";
 import { useRouter } from "next/router";
-import { Button } from "../components/Button";
+import { Button } from "../../components/Button";
 import { colors } from "@/styles/theme";
-import { PageOne } from "./PageOne";
-import { ClassiFile, Dataset, DatasetVisibility } from "../constants";
-import { PageTwo } from "./PageTwo";
-import { PageThree } from "./PageThree";
-import { createDataset } from "../utils/utils";
-import { PageFour } from "./PageFour";
-import { PageFive } from "./PageFive";
+import PageOne from "../../components/NewDatasetPages/PageOne";
+import { ClassiFile, Dataset, DatasetVisibility } from "../../constants";
+import PageTwo from "../../components/NewDatasetPages/PageTwo";
+import PageThree from "../../components/NewDatasetPages/PageThree";
+import { createDataset } from "../../utils/utils";
+import PageFour from "../../components/NewDatasetPages/PageFour";
+import PageFive from "../../components/NewDatasetPages/PageFive";
 import toast from "react-hot-toast";
 
 const NewProj = (): React.ReactElement => {

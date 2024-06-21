@@ -1,10 +1,10 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { Dataset } from "../constants";
-import { getDataMarketContract } from "../utils/DataContractUtils";
+import { Dataset } from "../../constants";
+import { getDataMarketContract } from "../../utils/DataContractUtils";
 import { ethers } from "ethers";
-import { DatasetToUpdate } from "../components/UpdateDataset";
-import { userOwnsDataset } from "../utils/utils";
+import { DatasetToUpdate } from "../../components/UpdateDataset";
+import { userOwnsDataset } from "../../utils/utils";
 
 const UpdateDatasets = (): React.ReactElement => {
   const router = useRouter();

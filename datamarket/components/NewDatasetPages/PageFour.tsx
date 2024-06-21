@@ -1,12 +1,12 @@
 import React from "react";
 
-import { UpdateOrCreateDatasetProps } from "../constants";
-import { UpdateOrCreateDataset } from "../components/UpdateOrCreateDataset";
+import { UpdateOrCreateDatasetProps } from "../../constants";
+import { UpdateOrCreateDataset } from "../UpdateOrCreateDataset";
 
 /**
  * Don't actually need this to be its own page, but just for consistency so we can name it PageFour in the series of pages
  */
-export const PageFour = ({
+const PageFour = ({
   name,
   setName,
   description,
@@ -29,3 +29,5 @@ export const PageFour = ({
     />
   );
 };
+
+export default PageFour;

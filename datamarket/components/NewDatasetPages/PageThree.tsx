@@ -1,12 +1,12 @@
 import React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { ClassiFile } from "../constants";
-import { Button } from "../components/Button";
-import { TextField } from "../components/TextField";
+import { ClassiFile } from "../../constants";
+import { Button } from "../Button";
+import { TextField } from "../TextField";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { getShowableIndex } from "../utils/utils";
+import { getShowableIndex } from "../../utils/utils";
 
-export const PageThree = ({
+const PageThree = ({
   labels,
   images,
 }: {
@@ -28,7 +28,7 @@ export const PageThree = ({
       images[fileIndex].classif = undefined;
     }
     const prevClassif = images[fileIndex].classif;
-    if (prevClassif?.includes(text)) {
+    if (prevClassif.includes(text)) {
       return;
     }
     if (prevClassif) {
@@ -154,9 +154,8 @@ export const PageThree = ({
           }}
         />
       </div>
-      {/* <Typography component="span" variant="body1"> */}
+
       <p>{`Image ${fileIndex + 1}/${images.length}`}</p>
-      {/* </Typography> */}
       <div className="flex flex-row items-center content-center rounded-md gap-2">
         <Button onClick={prevImage}>
           <KeyboardBackspaceIcon />
@@ -178,3 +177,5 @@ export const PageThree = ({
     </div>
   );
 };
+
+export default PageThree;

@@ -1,10 +1,9 @@
 import React from "react";
-import { ListDatasets } from "./components/ListDatasets";
-import { Dataset } from "./constants";
-import { getDataMarketContract } from "./utils/DataContractUtils";
+import { Dataset } from "../constants";
+import { getDataMarketContract } from "../utils/DataContractUtils";
 import { ethers } from "ethers";
 import { useRouter } from "next/router";
-import { Button } from "./components/Button";
+import { Button } from "../components/Button";
 import { DEFAULT_HOME_CLASSNAME } from "@/styles/theme";
 
 const Home = (): React.ReactElement => {

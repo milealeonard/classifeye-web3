@@ -1,12 +1,9 @@
 import React from "react";
-import { ListDatasets } from "../components/ListDatasets";
-import { Dataset } from "../constants";
-import { getDataMarketContract } from "../utils/DataContractUtils";
+import { ListDatasets } from "../../components/ListDatasets";
+import { Dataset } from "../../constants";
+import { getDataMarketContract } from "../../utils/DataContractUtils";
 import { ethers } from "ethers";
-import HomeIcon from "@mui/icons-material/Home";
-import MenuIcon from "@mui/icons-material/Menu";
-import { useRouter } from "next/router";
-import { NavBar } from "../components/NavBar";
+import { NavBar } from "../../components/NavBar";
 
 const MyDatasets = (): React.ReactElement => {
   const [datasets, setDatasets] = React.useState<Dataset[] | undefined>(

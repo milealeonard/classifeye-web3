@@ -1,10 +1,10 @@
 import React from "react";
-import { Button } from "../components/Button";
-import { TextField } from "../components/TextField";
+import { Button } from "../Button";
+import { TextField } from "../TextField";
 
 const MAX_LABELS = 26;
 
-export const PageTwo = ({
+const PageTwo = ({
   goToNextPage,
   labels,
   setLabels,
@@ -64,13 +64,8 @@ export const PageTwo = ({
           placeholder="Add a label"
         />
         {tooManyLabels ? (
-          //   <Tooltip
-          //     title="You have reached the maximum number of labels"
-          //     placement="right"
-          //   >
           <div className="flex content-center items-center">{AddButton}</div>
         ) : (
-          //   </Tooltip>
           AddButton
         )}
       </div>
@@ -80,7 +75,6 @@ export const PageTwo = ({
           style={{
             maxHeight: "50vh",
             overflow: "auto",
-            // border: "1px solid rgba(255, 255, 255, 0.1)",
           }}
         >
           {labels.map((value: string) => {
@@ -106,3 +100,5 @@ export const PageTwo = ({
     </div>
   );
 };
+
+export default PageTwo;

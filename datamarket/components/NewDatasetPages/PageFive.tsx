@@ -1,13 +1,9 @@
 import React from "react";
-import { Dataset } from "../constants";
-import { DatasetView } from "../components/DatasetView";
+import { Dataset } from "../../constants";
+import { DatasetView } from "../DatasetView";
 import { ethers } from "ethers";
 
-export const PageFive = ({
-  dataset,
-}: {
-  dataset: Dataset;
-}): React.ReactElement => {
+const PageFive = ({ dataset }: { dataset: Dataset }): React.ReactElement => {
   const [loading, setLoading] = React.useState(true);
   const [accounts, setAccounts] = React.useState<string[] | undefined>(
     undefined
@@ -46,3 +42,5 @@ export const PageFive = ({
     </div>
   );
 };
+
+export default PageFive;

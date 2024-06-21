@@ -1,6 +1,6 @@
 import React from "react";
-import { ClassiFile, Dataset } from "../constants";
-import { getDataMarketContract } from "../utils/DataContractUtils";
+import { ClassiFile, Dataset } from "../../constants";
+import { getDataMarketContract } from "../../utils/DataContractUtils";
 import { ethers } from "ethers";
 import { DEFAULT_HOME_CLASSNAME } from "@/styles/theme";
 import {
@@ -9,10 +9,10 @@ import {
   parseLabelsFromClassifile,
   updateDataset,
   userOwnsDataset,
-} from "../utils/utils";
+} from "../../utils/utils";
 import { useRouter } from "next/router";
-import { PageThree } from "../new/PageThree";
-import { Button } from "../components/Button";
+import PageThree from "../../components/NewDatasetPages/PageThree";
+import { Button } from "../../components/Button";
 
 const ResumeMarking = (): React.ReactElement => {
   const router = useRouter();

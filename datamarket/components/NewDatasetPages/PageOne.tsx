@@ -1,10 +1,10 @@
 import React from "react";
 import CheckIcon from "@mui/icons-material/Check";
-import { ClassiFile } from "../constants";
-import { Button } from "../components/Button";
-import { TextField } from "../components/TextField";
+import { ClassiFile } from "../../constants";
+import { Button } from "../Button";
+import { TextField } from "../TextField";
 
-export const PageOne = ({
+const PageOne = ({
   hasFiles,
   setFiles,
   firstName,
@@ -67,3 +67,5 @@ export const PageOne = ({
     </div>
   );
 };
+
+export default PageOne;

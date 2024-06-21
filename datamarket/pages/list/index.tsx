@@ -1,9 +1,9 @@
 import React from "react";
-import { ListDatasets } from "../components/ListDatasets";
-import { Dataset } from "../constants";
-import { getDataMarketContract } from "../utils/DataContractUtils";
+import { ListDatasets } from "../../components/ListDatasets";
+import { Dataset } from "../../constants";
+import { getDataMarketContract } from "../../utils/DataContractUtils";
 import { ethers } from "ethers";
-import { NavBar } from "../components/NavBar";
+import { NavBar } from "../../components/NavBar";
 
 const Home = (): React.ReactElement => {
   const [datasets, setDatasets] = React.useState<Dataset[] | undefined>(
