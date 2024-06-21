@@ -6,10 +6,11 @@ pragma solidity ^0.8.18;
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import {console} from "forge-std/console.sol";
 
 
-contract DataMarket is Initializable, OwnableUpgradeable, UUPSUpgradeable{
+contract DataMarket is Initializable, OwnableUpgradeable, UUPSUpgradeable, ReentrancyGuard {
     event DatasetCreated(address indexed creator, uint256 indexed datasetIndex);
     event DatasetUpdated(address indexed creator, uint256 indexed datasetIndex);
     event DatasetPurchased(address indexed purchaser, address indexed purchasedFrom, uint256 indexed datasetIndex);
@@ -185,8 +186,7 @@ contract DataMarket is Initializable, OwnableUpgradeable, UUPSUpgradeable{
 	/**
 	 * Purchase
 	 */
-	// todo no reentrancy
-    function purchaseDataset(uint256 _datasetIndex) public payable {
+    function purchaseDataset(uint256 _datasetIndex) public payable nonReentrant {
         // first ensure the request is sound/valid
         Dataset memory _dataset = s_datasets[_datasetIndex];
 
