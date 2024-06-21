@@ -6,10 +6,17 @@ Fun little project which takes an existing project to do image classification da
 2. a dataset market (soon to come) where you can purchase datasets that other people have annotated.
    a. There is a review system by which people's datasets can be reviewed so you can gain some trust in somebody's dataset labelling + collection.
 
+### Callouts
+
+This is NOT a project about fantastic web design haha, it is quite awful.
+This was mainly a fun little project to get some extra practice with Solidity (smart contract engineering + testing), to practice a new use case (data storage), get familiar with IPFS, and get exposure to deploying to testnets.
+May refine the frontend as we go forward, but I mainly just wanted to get something functional. Much of the typescript code isn't even very neat as the bulk of it was coded in a fat 6hr session to just get a working classifier out when I recreated `classifeye-web.vercel.app` as I had lost the source code for the previous version of it lol.
+
 ## Techs used
 
 - IPFS for dataset storage
 - Metamask for dataset encryption + decryption
+- Forge/Foundry for deployment and testing.
 - Built on the EVM for actual dataset ownership tracking + purchasing. Using solidity.
 - UUPS upgradable contract for initial deployment. Can transfer ownership until things are stable, and then will implement a contract that is no longer upgradable.
 
