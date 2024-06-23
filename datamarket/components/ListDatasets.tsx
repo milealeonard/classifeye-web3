@@ -27,12 +27,21 @@ export const ListDatasets = ({
   }
 
   return (
-    <div className="flex flex-col gap-2 w-full">
+    // <div className="flex flex-wrap justify-center w-full">
+    <div className=" flex flex-wrap justify-left w-full px-6">
+          {/* <div className="gap-1 border-4 border-black rounded-md content-center bg-white text-black h-46"> 
+      </div> */}
+      <div className="p-2">
+          <div className="flex flex-col gap-1 border-4 border-black rounded-md p-2 content-center items-center bg-white text-black  w-add h-add ">
+            <p>hellp</p>
+          </div>
+      </div>
       {datasets.map((dataset: Dataset, index: number) => {
         if (shouldDatasetBeHidden(dataset)) {
           return <></>;
         }
         return (
+          <div className="p-2">
           <DatasetView
             key={index}
             dataset={dataset}
@@ -41,8 +50,10 @@ export const ListDatasets = ({
             forOwnersOnly={forOwnersOnly}
             liteMode={liteMode}
           />
+          </div>
         );
       })}
-    </div>
+      </div>
+    // </div>
   );
 };

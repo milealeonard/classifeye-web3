@@ -82,68 +82,57 @@ export const DatasetView = ({
   }
 
   return (
-    <div className="flex flex-col gap-1 border rounded-md p-1 content-center items-center w-full">
-      {/* <div className="flex flex-row w-full items-center justify-end relative"> */}
-      <div className="flex flex-row gap-1 items-center justify-end w-full">
-        {isOwner && publicIndex !== undefined && (
-          <Button onClick={navToUpdate}>
-            <EditIcon sx={{ width: "12px", height: "12px" }} />
-          </Button>
-        )}
-        {isOwner && publicIndex !== undefined && (
-          <Button onClick={downloadDataset}>
-            <DownloadIcon sx={{ width: "12px", height: "12px" }} />
-          </Button>
-        )}
-        {imgUrls?.length && (
-          <Button onClick={() => setShowImgs((prev) => !prev)}>
-            {showImgs ? (
-              <VisibilityOffIcon sx={{ width: "12px", height: "12px" }} />
-            ) : (
-              <VisibilityIcon sx={{ width: "12px", height: "12px" }} />
+    <div className="flex flex-col gap-1 border-4 border-black rounded-md p-2 content-center items-center bg-white text-black w-full">
+          <div className="flex flex-row gap-5 items-center justify-end w-full">
+            {isOwner && publicIndex !== undefined && (
+              <Button onClick={navToUpdate} removeOutline={true}>
+                <EditIcon sx={{ width: "24px", height: "24px" }} />
+              </Button>
             )}
-          </Button>
-        )}
-        {isOwner && publicIndex !== undefined && (
-          <Button onClick={navToResume}>
-            <KeyboardBackspaceIcon
-              sx={{
-                transform: "rotate(180deg)",
-                width: "12px",
-                height: "12px",
-              }}
-            />
-          </Button>
-        )}
-        {/* </div> */}
-      </div>
-      <div className="flex flex-col gap-1 items-center">
-        <h3>{dataset.name}</h3>
-        <p>{dataset.description}</p>
-      </div>
-      <div className="flex flex-col gap-1 items-start">
-        <p>Price: {Number(dataset.price)}</p>
-      </div>
-      {!liteMode && showImgs && (
-        <div className="max-h-96 overflow-auto flex flex-col items-center gap-3">
-          {imgsLoading && <p>Imgs Loading...</p>}
-          {!imgsLoading && !!imgUrls.length && <p>Images: </p>}
-          {imgUrls?.map((url: string, index: number) => {
-            return (
-              <img
-                key={index}
-                src={url}
-                alt={`ht-${index}`}
-                style={{ maxWidth: "300px" }}
-              />
-            );
-          })}
-        </div>
-      )}
-      {/* TODO: Get purchase working in terms of ownership transfer (encryption decryption) */}
-      {/* {!isOwner && publicIndex !== undefined && (
-        <Button onClick={purchaseDatasetWrapper}>Purchase</Button>
-      )} */}
+            {isOwner && publicIndex !== undefined && (
+              <Button onClick={downloadDataset} removeOutline={true}>
+                <DownloadIcon sx={{ width: "24px", height: "24px" }} />
+              </Button>
+            )}
+            {imgUrls?.length && (
+              <Button onClick={() => setShowImgs((prev) => !prev)} removeOutline={true}>
+                {showImgs ? (
+                  <VisibilityOffIcon sx={{ width: "24px", height: "24px" }} />
+                ) : (
+                  <VisibilityIcon sx={{ width: "24px", height: "24px" }} />
+                )}
+              </Button>
+            )}
+          </div>
+          <div className="flex flex-col gap-1 items-center">
+            <h3>{dataset.name}</h3>
+            <p>{dataset.description}</p>
+          </div>
+          <div className="flex flex-col gap-1 items-start">
+            <p>Price: ${Number(dataset.price)}</p>
+          </div>
+          {isOwner && publicIndex !== undefined && (
+            <div className="border-2 border-blue-500 rounded-full px-3 hover:bg-blue-300">
+              <Button onClick={navToResume} removeOutline={true}>
+                <p>View Dataset</p>
+              </Button>
+            </div>
+          )}
+          {!liteMode && showImgs && (
+            <div className="max-h-96 overflow-auto flex flex-col items-center gap-3">
+              {imgsLoading && <p>Imgs Loading...</p>}
+              {!imgsLoading && !!imgUrls.length && <p>Images: </p>}
+              {imgUrls?.map((url: string, index: number) => (
+                <img
+                  key={index}
+                  src={url}
+                  alt={`ht-${index}`}
+                  style={{ maxWidth: "300px" }}
+                />
+              ))}
+            </div>
+          )}
     </div>
   );
+  
 };

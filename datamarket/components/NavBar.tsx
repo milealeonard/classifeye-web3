@@ -10,7 +10,7 @@ export const NavBar = ({ title }: { title: string }): React.ReactElement => {
         style={{ height: "32px", width: "32px", cursor: "pointer" }}
         onClick={(): Promise<boolean> => router.push("/")}
       />
-      <h3>{title}</h3>
+      <h1 className="text-xl">{title}</h1>
       <MenuIcon
         style={{ height: "32px", width: "32px", cursor: "pointer" }}
         onClick={(): Promise<boolean> => router.push("/list")}
