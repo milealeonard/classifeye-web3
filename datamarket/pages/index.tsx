@@ -53,13 +53,17 @@ const Home = (): React.ReactElement => {
     <div className={DEFAULT_HOME_CLASSNAME}>
       <p>Welcome!</p>
       {!!datasets.length ? (
-        <Button onClick={() => router.push("/my-datasets")}>
+        <div className = "border-2 border-white rounded-md hover:bg-purple-300 hover:text-black transition-colors duration-300 ease-in-out">
+        <Button onClick={() => router.push("/my-datasets")} removeOutline={true}>
           View your projects
         </Button>
+        </div>
       ) : (
         <p>You don't have any projects yet...</p>
       )}
-      <Button onClick={() => router.push("/new")}>+ New</Button>
+       <div className = "border-2 border-white rounded-md hover:bg-purple-300 hover:text-black transition-colors duration-300 ease-in-out">
+      <Button onClick={() => router.push("/new")} removeOutline={true}>+ New</Button>
+      </div>
     </div>
   );
 };

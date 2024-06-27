@@ -2,6 +2,8 @@
 // INTERFACES/TYPES //
 //////////////////////
 
+import internal from "stream";
+
 export interface ClassiFile {
   blobby: Blob;
   content: string;
@@ -47,6 +49,10 @@ export interface Dataset {
   description: string;
 }
 
+export interface Option {
+  option: string;
+  value: number;
+}
 export interface UpdateDatasetProps {
   index: number;
   newName: string;
@@ -97,6 +103,7 @@ export enum DatasetVisibility {
 ///////////////
 // Constants //
 ///////////////
+
 
 export const DATAMARKET_ADDY = "0x5EDB4CB5b94bE5EaAc2f1d63c41b0EFcc62547A8";
 

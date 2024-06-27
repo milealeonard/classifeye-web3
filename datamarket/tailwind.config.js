@@ -13,6 +13,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      width: {
+        'add':'180px',
+      },
+      height: {
+        'add':'192.72px',
+      },
       fontFamily: {
         sans: ["Helvetica Neue", ...fontFamily.sans],
         serif: [...fontFamily.serif],
