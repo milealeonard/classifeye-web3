@@ -83,7 +83,7 @@ export const DatasetView = ({
 
   return (
     <div className="flex flex-col gap-1 border-2 border-gray-300 hover:border-blue-500 rounded-md p-2 content-center items-center bg-white text-black w-full">
-          <div className="flex flex-row gap-5 items-center justify-end w-full">
+          <div className="flex flex-row gap-5 items-center justify-center w-full">
             {isOwner && publicIndex !== undefined && (
               <Button onClick={navToUpdate} removeOutline={true}>
                 <EditIcon sx={{ width: "24px", height: "24px" }} />
@@ -112,11 +112,11 @@ export const DatasetView = ({
             <p>Price: ${Number(dataset.price)}</p>
           </div>
           {isOwner && publicIndex !== undefined && (
-            <div className="border-2 border-blue-500 rounded-full px-3 hover:bg-blue-300 transition-colors duration-300 ease-in-out">
-              <Button onClick={navToResume} removeOutline={true}>
+            // <div className="border-2 border-blue-500 rounded-full px-3 hover:bg-blue-300 transition-colors duration-300 ease-in-out">
+              <button onClick={navToResume} className={"border-2 border-blue-500 rounded-full py-2 px-4 hover:bg-blue-300 transition-colors duration-300 ease-in-out"}>
                 <p>View Dataset</p>
-              </Button>
-            </div>
+              </button>
+
           )}
           {!liteMode && showImgs && (
             <div className="max-h-96 overflow-auto flex flex-col items-center gap-3">
