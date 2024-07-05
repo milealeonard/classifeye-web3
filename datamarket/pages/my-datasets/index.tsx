@@ -93,10 +93,11 @@ const MyDatasets = (): React.ReactElement => {
 
 
 
+
   return (
-    <div className="flex flex-col  w-full gap-4 h-screen">
+    <div className="flex flex-col  w-full h-screen">
       <NavBar title="My datasets" />
-      <div className="flex flex-row justify-left  w-full pl-2 text-black">
+      {/* <div className="flex flex-row justify-left  w-full pl-2 text-black">
         <select  placeholder = {"Sort By"} id="dropdown" value={sortOption} onChange={handleChangeSort} style={{padding: '10px', width: "150px", marginRight: "20px"}}>
         {sortOptions.map((option, index) => (
           <option key={index} value={option.value}>
@@ -111,7 +112,7 @@ const MyDatasets = (): React.ReactElement => {
           </option>
         ))}
         </select>
-      </div>
+      </div> */}
       <div className="flex flex-row jusifty-center items-center">
         <ListDatasets forOwnersOnly datasets={datasets} accounts={accounts} />
       </div>
