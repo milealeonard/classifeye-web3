@@ -25,7 +25,6 @@
     gap: 16px
 }
 .dropdownContainer p {
-    font-weight: bold;
     font-size: 32px;
 }
 
@@ -51,6 +50,7 @@
     color: gray;
 }
 .dropdownCategories {
+    margin-left: 15px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -60,7 +60,7 @@
     margin-left: 15px;
 }
 .rotateDrop {
-    transition: transform ease-in-out 0.2s;
+    /* transition: transform ease-in-out 0.1s; */
     transform: rotate(0deg);
 }
 .rotateDropdown {
@@ -68,6 +68,7 @@
 }
 
 .dropdownOptions  {
+    margin-left: 20px;
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -77,9 +78,58 @@
 }
 
 .dropdownOptions p {
-    font-size: 20px;
+    font-weight: lighter;
+    font-size: 18px;
     margin-left: 25px;
     text-align: left;
     min-width: 130px;
+}
+
+.selectOption {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.selectOption::before {
+    content: "○";
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 10px;
+    /* border: 2px solid red; */
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+
+}
+
+.selected::before {
+    content: "●";
+    color: blue;
+
+    font-size: 18.2px;
+    /* border: 2px solid red; */
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    min-height: 28px;
+
+}
+
+.galleryContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-left: 4px;
+    padding-right: 4px;
+    width: 50%;
+    height: 50%;
+    border: 2px solid red;
+}
+
+.rightSide {
+    display: flex;
+    justify-content: end;
+    width: 275px;
 }
 

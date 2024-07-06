@@ -11,7 +11,14 @@ import styles from './ListDatasets.module.css';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ClearIcon from '@mui/icons-material/Clear';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
+
+const sortOptions = ["Ascending", "Descending"] as const;
+type Option = typeof sortOptions[number];
 export const ListDatasets = ({
   forOwnersOnly,
   datasets,
@@ -28,6 +35,14 @@ export const ListDatasets = ({
   const [sortSelect, setSortSelect] = React.useState(false);
   const [viewSelect, setViewSelect] = React.useState(false);
   const [filterSelect, setFilterSelect] = React.useState(false);
+  const [sortedDataSet, setDatasets] = React.useState(datasets);
+
+  const [sortOption, setSortOption] = React.useState<Option>("Ascending");
+
+
+
+
+  
   
   const shouldDatasetBeHidden = (dataset: Dataset): boolean => {
     return dataset.visibility === DatasetVisibility.PRIVATE && !forOwnersOnly;
@@ -48,6 +63,25 @@ export const ListDatasets = ({
   }
   const navToNew = (): void => {
     router.push("new");
+  }
+
+  const changeSortOption = (option: Option): void => {
+    setSortOption(option);
+    handleSort(option)
+  }
+
+  const handleSort = (option: Option) : void => {
+    if (option == "Ascending") {
+      setDatasets(currentDataSet => {
+        const sortedDataSet = [...currentDataSet].sort((a, b) => +a.price - +b.price);
+        return sortedDataSet;
+      });
+    } else if (option == "Descending") {
+      setDatasets(currentDataSet => {
+        const sortedDataSet = [...currentDataSet].sort((a, b) => +b.price - +a.price);
+        return sortedDataSet;
+      });
+    }
   }
 
   const datasetsToBeShown = datasets.filter(
@@ -76,8 +110,8 @@ export const ListDatasets = ({
             </button>
           </div>
         </div>
-      <div className=" flex flex-wrap justify-center px-4 w-1/2 border h-1/2">
-      {datasets.map((dataset: Dataset, index: number) => {
+      <div className={styles.galleryContainer}>
+      {sortedDataSet.map((dataset: Dataset, index: number) => {
         if (shouldDatasetBeHidden(dataset)) {
           return <></>;
         }
@@ -96,6 +130,7 @@ export const ListDatasets = ({
       })}
       </div>
       <div className = "flex flex-row">
+        <div className={styles.rightSide}>
         {sidePanelHidden && (
           <button onClick={toggleSidePanel} style= {{height: "64px", padding: "10px", display: "flex", alignItems:"center"}}>
               <SettingsIcon sx={{width: "48px", height: "48px", cursor:"pointer", marginRight: "10px"}}/>
@@ -117,10 +152,16 @@ export const ListDatasets = ({
                 </div>
                 <div className = {styles.dropdownOptions}>
                   {sortSelect && (
-                    <button onClick={() => {console.log("sort")}}>
-                      <p>Ascending</p>
-                      <p> Descending</p>
-                    </button> 
+                    <div>
+                      {sortOptions.map(option => (
+                        <div key={option} 
+                             onClick={() => changeSortOption(option)}
+                             className={`${styles.selectOption} ${option === sortOption ? styles.selected : ''}`}>
+                          {option.slice(0)}
+                        </div>
+                      ))}
+                    </div>
+                  
                   )}
                 </div>
               </div>
@@ -137,8 +178,14 @@ export const ListDatasets = ({
                   <div className = {styles.dropdownOptions}>
                     {viewSelect && (
                       <button onClick={() => {console.log("sort")}}>
-                        <p>Gallery</p>
-                        <p> List</p>
+                        <div className={styles.selectOption}>
+                        <RadioButtonUncheckedIcon sx={{width: "24px", height: "24px"}}/>
+                      <p>Gallery</p>
+                      </div>
+                      <div className={styles.selectOption}>
+                        <RadioButtonUncheckedIcon sx={{width: "24px", height: "24px"}}/>
+                      <p>List</p>
+                      </div>
                       </button> 
                     )}
                 
@@ -156,15 +203,23 @@ export const ListDatasets = ({
                 <div className = {styles.dropdownOptions}>
                   {filterSelect && (
                     <button onClick={() => {console.log("sort")}}>
+                      
+                      <div className={styles.selectOption}>
+                        
+                        <CheckBoxOutlineBlankIcon sx={{width: "24px", height: "24px"}}/>
                       <p>Blah</p>
-                      <p> Bleh</p>
+                      </div>
+                      <div className={styles.selectOption}>
+                        <CheckBoxOutlineBlankIcon sx={{width: "24px", height: "24px"}}/>
+                      <p>Bleh</p>
+                      </div>
                     </button> 
                   )}
                   
 
                 </div>
               </div>
-              
+              </div>
 
             </div>
           </div>
