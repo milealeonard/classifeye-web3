@@ -9,9 +9,9 @@ import { filter } from "jszip";
 
 
 
-export const SideBar =(
+export const SideBar = (
     {datasets, setDataset}: 
-    {datasets: Dataset[], setDataset: React.Dispatch<React.SetStateAction<Dataset[]>>}): 
+    {datasets: Dataset[], setDataset: React.Dispatch<React.SetStateAction<Dataset[]>>}):
     React.ReactElement => {
     const sortOptions: SortType[] = ["Ascending", "Descending"];
     const viewOptions: ViewType[] = ["Gallery", "List"];
@@ -23,7 +23,7 @@ export const SideBar =(
 
     const [sortOption, setSortOption] = React.useState<SortType>("Ascending");
     const [viewOption, setViewOption] = React.useState<ViewType>("Gallery");
-    const [filterOption, setFilterOption] = React.useState<FilterType>("Blah");
+    const [filterOption, setFilterOption] = React.useState<FilterType[]>([]);
 
     
 
@@ -37,8 +37,14 @@ export const SideBar =(
     }
 
     const changeFilterOption = (option: FilterType): void => {
-        setFilterOption(option);
-    }
+        setFilterOption(currentOptions => {
+            if (currentOptions.includes(option)) {
+                 return currentOptions.filter(item => item != option);
+            } else {
+                return [...currentOptions, option];
+            }
+        })
+    };
 
     return (
         <div className={styles.dropdownContainer}>
@@ -106,7 +112,7 @@ export const SideBar =(
                         <div 
                             key={option} 
                             onClick={() => changeFilterOption(option)}
-                            className={`${styles.selectOption} ${styles.multi} ${option === filterOption ? styles.selectedMulti : ''}`}>
+                            className={`${styles.selectOption} ${styles.multi} ${filterOption.includes(option) ? styles.selectedMulti : ''}`}>
                             {option.slice(0)}
                         </div>
                     ))}
