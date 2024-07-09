@@ -102,7 +102,21 @@
     align-items: center;
 
 }
+.multi::before {
+    content: "□";
+}
 
+.selectedMulti::before {
+    content: "■";
+    color: blue;
+    font-size: 18.2px;
+    /* border: 2px solid red; */
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    min-height: 28px;
+
+}
 .selected::before {
     content: "●";
     color: blue;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Dataset } from "../../constants";
-import { DatasetView } from "../DatasetView";
+import { DatasetView } from "../MyDatasets/DatasetView";
 import { ethers } from "ethers";
 
 const PageFive = ({ dataset }: { dataset: Dataset }): React.ReactElement => {

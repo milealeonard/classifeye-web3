@@ -1,6 +1,6 @@
 import React from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Dataset } from "../constants";
+import { Dataset } from "../../constants";
 import DownloadIcon from "@mui/icons-material/Download";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -10,8 +10,8 @@ import {
   purchaseDataset,
   unzipFiles,
   userOwnsDataset,
-} from "../utils/utils";
-import { Button } from "./Button";
+} from "../../utils/utils";
+import { Button } from "../Button";
 import { useRouter } from "next/router";
 
 export const DatasetView = ({

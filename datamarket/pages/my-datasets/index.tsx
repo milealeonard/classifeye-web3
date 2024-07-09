@@ -1,5 +1,5 @@
 import React from "react";
-import { ListDatasets } from "../../components/ListDatasets";
+import { ListDatasets } from "../../components/MyDatasets/ListDatasets";
 import { Dataset } from "../../constants";
 import { getDataMarketContract } from "../../utils/DataContractUtils";
 import { ethers } from "ethers";
