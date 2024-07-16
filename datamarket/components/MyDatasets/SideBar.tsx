@@ -21,8 +21,8 @@ export const SideBar = (
     const [viewSelect, setViewSelect] = React.useState(false);
     const [filterSelect, setFilterSelect] = React.useState(false);
 
-    const [sortOption, setSortOption] = React.useState<SortType>("Ascending");
-    const [viewOption, setViewOption] = React.useState<ViewType>("Gallery");
+    const [sortOption, setSortOption] = React.useState<SortType>();
+    const [viewOption, setViewOption] = React.useState<ViewType>();
     const [filterOption, setFilterOption] = React.useState<FilterType[]>([]);
 
     
@@ -39,12 +39,14 @@ export const SideBar = (
     const changeFilterOption = (option: FilterType): void => {
         setFilterOption(currentOptions => {
             if (currentOptions.includes(option)) {
-                 return currentOptions.filter(item => item != option);
+                 return currentOptions.filter(x => x != option);
             } else {
                 return [...currentOptions, option];
             }
         })
     };
+
+
 
     return (
         <div className={styles.dropdownContainer}>

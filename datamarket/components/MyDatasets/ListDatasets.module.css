@@ -1,5 +1,5 @@
 .sidepanel {
-    border: 2px solid gray;
+    border: 2px solid lightcoral;
     transition: transform 0.4s ease-in-out;
     /* margin-top: 57.33px; */
     height: 100vh;
@@ -137,10 +137,13 @@
     padding-left: 4px;
     padding-right: 4px;
     width: 50%;
-    height: 75%;
-    border: 2px solid red;
+    /* border: 2px solid red; */
     position: absolute;
     left: 25%;
+}
+
+.afterFirstRow {
+    justify-content: left;
 }
 
 .rightSide {

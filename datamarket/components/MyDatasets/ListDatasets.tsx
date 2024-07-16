@@ -50,8 +50,8 @@ export const ListDatasets = ({
       <div className="flex flex-wrap justify-between w-full">
         {width > 960 && (
         <div className= "flex flex-col items-center pl-2">
-          <div className="flex justify-center gap-1 border-2 border-gray-300 hover:border-blue-300 rounded-md p-2 content-center items-center bg-white text-black  w-add h-add mb-7 mt-2">
-            <button onClick={navToNew} className={"p-2 border-2 border-blue-500 rounded-full hover:bg-blue-300 transition-colors duration-300 ease-in-out"}>
+          <div className="flex justify-center gap-1 border-2 border-gray-300 hover:border-red-100 rounded-md p-2 content-center items-center bg-white text-black  w-add h-add mb-7 mt-2">
+            <button onClick={navToNew} className={"p-2 border-2 border-red-400 rounded-full hover:bg-red-100 transition-colors duration-300 ease-in-out"}>
                 <AddIcon sx={{width:"64px", height:"64px"}}/>
             </button>
           </div>
@@ -59,12 +59,12 @@ export const ListDatasets = ({
         )}
         {width <= 960 && (
             <div className= "flex flex-col items-center">
-              <button onClick={navToNew} className={"p-2 border-2 border-blue-500 hover:bg-blue-300 transition-colors duration-300 ease-in-out"}>
+              <button onClick={navToNew} className={"p-2 border-2 border-red-400 hover:bg-blue-300 transition-colors duration-300 ease-in-out"}>
                   <AddIcon sx={{width:"32px", height:"32px"}}/>
               </button>
           </div>
         )}
-      <div className={styles.galleryContainer}>
+      <div className={`${styles.galleryContainer}`}>
       {sortedDataSet.map((dataset: Dataset, index: number) => {
         if (shouldDatasetBeHidden(dataset)) {
           return <></>;

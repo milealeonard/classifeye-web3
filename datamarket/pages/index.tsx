@@ -4,7 +4,9 @@ import { getDataMarketContract } from "../utils/DataContractUtils";
 import { ethers } from "ethers";
 import { useRouter } from "next/router";
 import { Button } from "../components/Button";
-import { DEFAULT_HOME_CLASSNAME } from "@/styles/theme";
+import { DEFAULT_HOME_CLASSNAME, colors } from "@/styles/theme";
+import { NavBar } from "@/components/NavBar";
+import styles from './homeStyle.module.css';
 
 const Home = (): React.ReactElement => {
   const [datasets, setDatasets] = React.useState<Dataset[] | undefined>(
@@ -43,14 +45,16 @@ const Home = (): React.ReactElement => {
 
   if (!datasets || !accounts) {
     return (
-      <p className={DEFAULT_HOME_CLASSNAME}>
-        Please install or connect metamask
+      <p className={styles.metamask}>
+        Please install or connect   
+        <a className={styles.metamaskLink} href = "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank"> metamask</a>
       </p>
     );
   }
 
   return (
     <div className={DEFAULT_HOME_CLASSNAME}>
+      <NavBar title="Home"/>
       <p>Welcome!</p>
       {!!datasets.length ? (
         <div className = "border-2 border-white rounded-md hover:bg-purple-300 hover:text-black transition-colors duration-300 ease-in-out">

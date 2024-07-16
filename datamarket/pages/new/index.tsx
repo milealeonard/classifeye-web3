@@ -106,7 +106,8 @@ const NewProj = (): React.ReactElement => {
   return (
     <div
       className="flex flex-col min-h-full items-center content-center gap-2 w-6/12 pt-4"
-      style={{ backgroundColor: colors.darkBlue }}
+      style={{ backgroundColor: colors.lightGray
+       }}
     >
       <h1 className="pb-4">classifEye</h1>
       {pageNumber === 0 && (

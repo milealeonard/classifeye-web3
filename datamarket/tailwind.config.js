@@ -31,6 +31,7 @@ module.exports = {
         light: "var(--color-light)",
         lightBlue: colors.lightBlue,
         darkBlue: colors.darkBlue,
+        lightGray: colors.lightGray,
       },
       backgroundImage: {
         heroImage: "url('/bg.png')",

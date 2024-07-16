@@ -20,7 +20,7 @@ export const TextField: FC<Props> = ({
   fullWidth,
 }) => {
   let className =
-    "p-1 rounded-md border-2 border-lightBlue text-black focus:outline-none";
+    "p-1 bg-lightGray w-full text-black text-3xl focus:outline-none";
   if (fullWidth) {
     className = className.concat(" w-full");
   }
@@ -33,6 +33,7 @@ export const TextField: FC<Props> = ({
         disabled={disabled}
         className={className}
         value={value}
+
       />
     );
   }

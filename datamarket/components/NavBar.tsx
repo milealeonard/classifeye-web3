@@ -11,7 +11,7 @@ export const NavBar = ({ title }: { title: string }): React.ReactElement => {
   // }
   return (
     <div className="w-full">
-      <div className="border border-dotted">
+      <div className="border-2 border-red-400 border-dotted">
         <div className="flex flex-row w-full justify-between items-center p-3">
           <HomeIcon
             style={{ height: "32px", width: "32px", cursor: "pointer" }}

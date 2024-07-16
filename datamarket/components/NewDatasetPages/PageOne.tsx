@@ -3,6 +3,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import { ClassiFile } from "../../constants";
 import { Button } from "../Button";
 import { TextField } from "../TextField";
+import styles from "../../pages/new/style.module.css"
 
 const PageOne = ({
   hasFiles,
@@ -36,32 +37,43 @@ const PageOne = ({
   }
 
   return (
-    <div className="flex flex-col gap-3 items-center" style={{ width: "50vw" }}>
-      <div className="flex flex-row gap-1 items-center relative">
-        <TextField
-          onChange={(event) => {
-            setFirstName(event.target.value);
-          }}
-          value={firstName}
-          placeholder="Grader name"
-        />
+    <div className={styles.container}>
+      <div className={styles.field}>
+          <TextField
+            onChange={(event) => {
+              setFirstName(event.target.value);
+            }}
+            value={firstName}
+            placeholder="Grader name"
+          />
 
-        {!!firstName && (
-          <CheckIcon className="absolute -right-8" color="secondary" />
-        )}
+          {!!firstName && (
+            <CheckIcon 
+            sx={{width: 48, height: 48}}
+            className="" 
+            color="secondary" />
+          )}
       </div>
+      
       <input
         type="file"
         id="fileInput"
         onChange={handleChange}
         accept="image/*"
         multiple
-        style={{ display: "none" }}
+        style={{ display: "none"}}
       />
-      <div className="flex flex-row content-between items-center relative">
-        <Button onClick={handleButtonClick}>Select files</Button>
+        <div className={styles.fileField}>
+        <button 
+        className="text-2xl"
+        onClick={handleButtonClick} 
+        style={{minWidth: "156px", minHeight:"64px", border:"solid grey 2px", padding: "4px", borderRadius:"6px"}}
+        >Select files</button>
         {hasFiles && (
-          <CheckIcon color="secondary" className="absolute -right-8" />
+          <CheckIcon
+           sx={{width: 48, height: 48}}
+           color="secondary" 
+           className="" />
         )}
       </div>
     </div>

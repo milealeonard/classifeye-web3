@@ -12,7 +12,7 @@ export default function Document() {
       </Head>
       <body
         className="w-screen"
-        style={{ backgroundColor: colors.darkBlue, color: "white" }}
+        style={{ backgroundColor: colors.lightGray, color: colors.darkBlue }}
       >
         <Main />
         <NextScript />
