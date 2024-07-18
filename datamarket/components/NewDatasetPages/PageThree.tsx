@@ -3,7 +3,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { ClassiFile } from "../../constants";
 import { Button } from "../Button";
 import { TextField } from "../TextField";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import { getShowableIndex } from "../../utils/utils";
 
 const PageThree = ({
@@ -105,7 +105,7 @@ const PageThree = ({
         className="flex flex-col gap-2"
         style={{
           position: "absolute",
-          left: "10px",
+          left: "10%",
           width: "16.5vw",
           alignItems: "center",
           justifyContent: "center",
@@ -125,13 +125,13 @@ const PageThree = ({
               }}
               key={label}
               style={{
-                maxWidth: "13vw",
+                minWidth: "13vw",
                 display: "block",
                 padding: "4px",
                 borderRadius: "4px",
               }}
             >
-              <p>
+              <p className="text-3xl font-bold">
                 {indexToShow ? `${indexToShow}: ${label}` : "Too many labels"}
               </p>
             </div>
@@ -140,9 +140,9 @@ const PageThree = ({
       </div>
       <div
         className="flex flex-row gap-1 content-center items-center"
-        style={{
-          height: "calc(100vh - 330px)",
-        }}
+        // style={{
+        //   height: "calc(100vh - 330px)",
+        // }}
       >
         <img
           src={images[fileIndex].content}
@@ -155,13 +155,13 @@ const PageThree = ({
         />
       </div>
 
-      <p>{`Image ${fileIndex + 1}/${images.length}`}</p>
+      <p className="text-xl">{`Image ${fileIndex + 1}/${images.length}`}</p>
       <div className="flex flex-row items-center content-center rounded-md gap-2">
         <Button onClick={prevImage}>
-          <KeyboardBackspaceIcon />
+          <KeyboardArrowLeftIcon />
         </Button>
         <Button onClick={nextImage}>
-          <KeyboardBackspaceIcon sx={{ transform: "rotate(180deg)" }} />
+          <KeyboardArrowLeftIcon sx={{ transform: "rotate(180deg)" }} />
         </Button>
       </div>
       <div className="flex flex-row gap-2">

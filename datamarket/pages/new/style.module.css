@@ -1,22 +1,27 @@
 .container {
     display: flex;
     flex-direction: column;
-    justify-items: center;
+    align-items: center;
     justify-content: center;
     gap: 3px;
-    
     width: 50vw;
 }
+
 .field {
     display: flex;
     flex-direction:row;
     justify-content: space-between;
     border-bottom: solid 2px grey;
-    margin-left: 20%;
     width: 30vw;
     background-color: #F0F4F8;
+    padding-top: 2px;
 }
 
+
+
+.wPdiv {
+    width: 100%;
+}
 
 
 .fileField {
@@ -25,9 +30,10 @@
     justify-content: space-between;
     width: 30vw;
     /* border: solid red 2px; */
-    margin-left: 20%;
     margin-top: 8px;
 
 }
-
+.fileField:hover {
+    border-color: black;
+}
 

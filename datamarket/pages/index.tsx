@@ -7,6 +7,7 @@ import { Button } from "../components/Button";
 import { DEFAULT_HOME_CLASSNAME, colors } from "@/styles/theme";
 import { NavBar } from "@/components/NavBar";
 import styles from './homeStyle.module.css';
+import { MonitorWeightRounded } from "@mui/icons-material";
 
 const Home = (): React.ReactElement => {
   const [datasets, setDatasets] = React.useState<Dataset[] | undefined>(
@@ -55,20 +56,44 @@ const Home = (): React.ReactElement => {
   return (
     <div className={DEFAULT_HOME_CLASSNAME}>
       <NavBar title="Home"/>
-      <p>Welcome!</p>
+      <div className="flex flex-col justify-center items-center w-screen h-5/6">
+        <div className="flex flex-row justify-center h-3/6">
       {!!datasets.length ? (
-        <div className = "border-2 border-white rounded-md hover:bg-purple-300 hover:text-black transition-colors duration-300 ease-in-out">
-        <Button onClick={() => router.push("/my-datasets")} removeOutline={true}>
+        <div className = "text-center text-3xl border-2 border-red-300 rounded-md hover:bg-red-100 transition-colors duration-300 ease-in-out"
+        style={{minWidth:"400px"}}>
+        <button 
+          onClick={() => router.push("/my-datasets")}
+          className="h-full w-full"
+        >
+          <div className="flex flex-col justify-center h-full  hover:scale-110 transition-transform duration-300">
           View your projects
-        </Button>
+          </div>
+
+        </button>
         </div>
       ) : (
         <p>You don't have any projects yet...</p>
       )}
-       <div className = "border-2 border-white rounded-md hover:bg-purple-300 hover:text-black transition-colors duration-300 ease-in-out">
-      <Button onClick={() => router.push("/new")} removeOutline={true}>+ New</Button>
+      <div
+      style={{minWidth:"75%"}}
+      />
+
+        <div className = "text-center text-3xl border-2 border-red-300 rounded-md hover:bg-red-100 transition-colors duration-300 ease-in-out"
+        style={{minWidth:"400px"}}>
+        <button 
+          onClick={() => router.push("/new")}
+          className="h-full w-full"
+        >
+          <div className="flex flex-col justify-center h-full hover:scale-110 transition-transform duration-300">
+
+          + New
+          </div>
+
+        </button>
+        </div>
+        </div>
       </div>
-    </div>
+      </div>
   );
 };
 

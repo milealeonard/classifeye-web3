@@ -5,6 +5,7 @@ import { Button } from "../Button";
 import { TextField } from "../TextField";
 import styles from "../../pages/new/style.module.css"
 
+
 const PageOne = ({
   hasFiles,
   setFiles,
@@ -37,7 +38,7 @@ const PageOne = ({
   }
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} space-y-4`} >
       <div className={styles.field}>
           <TextField
             onChange={(event) => {
@@ -65,9 +66,9 @@ const PageOne = ({
       />
         <div className={styles.fileField}>
         <button 
-        className="text-2xl"
+        className="text-2xl border-2 border-gray-400 hover:border-gray-600"
         onClick={handleButtonClick} 
-        style={{minWidth: "156px", minHeight:"64px", border:"solid grey 2px", padding: "4px", borderRadius:"6px"}}
+        style={{minWidth: "156px", minHeight:"64px", padding: "4px", borderRadius:"6px"}}
         >Select files</button>
         {hasFiles && (
           <CheckIcon

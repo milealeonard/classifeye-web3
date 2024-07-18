@@ -44,7 +44,7 @@ const Home = (): React.ReactElement => {
   return (
     <div className="flex flex-col items-center w-full gap-4 h-screen">
       <NavBar title="Datasets" />
-      <div>
+      <div className="pt-16">
         <ListDatasets datasets={datasets} accounts={accounts} />
       </div>
     </div>

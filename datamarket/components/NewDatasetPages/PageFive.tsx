@@ -30,10 +30,10 @@ const PageFive = ({ dataset }: { dataset: Dataset }): React.ReactElement => {
 
   return (
     <div className="flex flex-col gap-1">
-      <p>
+      <div className="text-center text-2xl">
         Please wait while your dataset gets created. It can take up to a few
         minutes.
-      </p>
+      </div>
       <DatasetView
         dataset={dataset}
         accounts={accounts}

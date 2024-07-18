@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "../Button";
 import { TextField } from "../TextField";
+import styles from "../../pages/new/style.module.css"
 
 const MAX_LABELS = 26;
 
@@ -30,48 +31,48 @@ const PageTwo = ({
   const tooManyLabels = labels.length >= MAX_LABELS;
 
   const AddButton = (
-    <Button
+    <div 
+    className = "w-full pt-8">
+    <button
       onClick={(): void => {
         addNewLabelCallback();
       }}
       disabled={tooManyLabels}
+      className="w-full border-2 border-gray-400 py-2 rounded-md text-3xl hover:border-gray-700"
     >
       Add
-    </Button>
+    </button>
+    </div>
   );
 
   return (
-    <div className="gap-1 flex flex-col items-center" style={{ width: "50vw" }}>
-      <div
-        className="flex flex-row gap-1"
-        style={{
-          position: "relative",
-          left: "30px",
-          paddingBottom: labels.length ? "30px" : undefined,
-        }}
-      >
-        <TextField
-          value={currText}
-          onKeyDown={(event): void => {
-            if (event.code !== "Enter") {
-              return;
-            }
-            addNewLabelCallback();
-          }}
-          onChange={(event): void => {
-            setCurrText(event.target.value ?? "");
-          }}
-          placeholder="Add a label"
-        />
+    <div className="gap-1 flex flex-col items-center">
+      <div className="flex flex-col items-center">
+        <div className={styles.field}>
+          <TextField
+            value={currText}
+            onKeyDown={(event): void => {
+              if (event.code !== "Enter") {
+                return;
+              }
+              addNewLabelCallback();
+            }}
+            onChange={(event): void => {
+              setCurrText(event.target.value ?? "");
+            }}
+            placeholder="Add a label"
+          />
+          </div>
         {tooManyLabels ? (
           <div className="flex content-center items-center">{AddButton}</div>
         ) : (
           AddButton
         )}
+    
       </div>
       {!!labels.length && (
         <div
-          className="flex flex-col items-end gap-2 rounded-md p-1"
+          className="flex flex-col items-end gap-1 rounded-md"
           style={{
             maxHeight: "50vh",
             overflow: "auto",
@@ -79,7 +80,7 @@ const PageTwo = ({
         >
           {labels.map((value: string) => {
             return (
-              <div className="flex flex-row gap-2 items-center" key={value}>
+              <div className="flex flex-row gap-2 items-center text-xl" key={value}>
                 <p>{value}</p>
                 <Button
                   removeOutline
