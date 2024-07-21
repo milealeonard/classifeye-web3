@@ -26,6 +26,7 @@ const UpdateDatasets = (): React.ReactElement => {
         const signerHere = await provider.getSigner();
         const dataMarketContract = getDataMarketContract(signerHere);
         const listed = await dataMarketContract.listAllDatasets();
+        
 
         setDatasets(listed);
       } catch (e) {

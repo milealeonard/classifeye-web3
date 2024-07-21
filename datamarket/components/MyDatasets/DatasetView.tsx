@@ -20,6 +20,7 @@ export const DatasetView = ({
   publicIndex,
   forOwnersOnly,
   liteMode,
+  imgUrls,
 }: {
   dataset: Dataset;
   accounts: string[];
@@ -27,9 +28,10 @@ export const DatasetView = ({
   publicIndex: number | undefined;
   forOwnersOnly?: boolean;
   liteMode?: boolean;
+  imgUrls: string[];
 }): React.ReactElement => {
   const router = useRouter();
-  const [imgUrls, setImgUrls] = React.useState<any | undefined>(undefined);
+  // const [imgUrls, setImgUrls] = React.useState<any | undefined>(undefined);
   // dont care to load imgs for lite mode
   const [imgsLoading, setImgsLoading] = React.useState(!liteMode);
   const [showImgs, setShowImgs] = React.useState(false);
@@ -37,25 +39,26 @@ export const DatasetView = ({
   const isOwner = userOwnsDataset(dataset, accounts);
   const shouldShowThisDataset = !forOwnersOnly || isOwner;
 
-  React.useEffect(() => {
-    (async () => {
-      if (!shouldShowThisDataset || liteMode) {
-        return;
-      }
-      try {
-        if (dataset.sample) {
-          const res = await fetch(
-            `https://gateway.pinata.cloud/ipfs/${dataset.sample}`
-          );
-          const resJson = await res.json();
-          const { imgUrls: unzippedUrls } = await unzipFiles(resJson);
-          setImgUrls(unzippedUrls);
-        }
-      } finally {
-        setImgsLoading(false);
-      }
-    })();
-  }, []);
+  
+  // React.useEffect(() => {
+  //   (async () => {
+  //     if (!shouldShowThisDataset || liteMode) {
+  //       return;
+  //     }
+  //     try {
+  //       if (dataset.sample) {
+  //         const res = await fetch(
+  //           `https://gateway.pinata.cloud/ipfs/${dataset.sample}`
+  //         );
+  //         const resJson = await res.json();
+  //         const { imgUrls: unzippedUrls } = await unzipFiles(resJson);
+  //         setImgUrls(unzippedUrls);
+  //       }
+  //     } finally {
+  //       setImgsLoading(false);
+  //     }
+  //   })();
+  // }, []);
 
   const purchaseDatasetWrapper = async (): Promise<void> => {
     if (publicIndex === undefined) {
@@ -83,6 +86,7 @@ export const DatasetView = ({
 
   return (
     <div className="flex flex-col gap-1 border-2 border-gray-300 hover:border-red-400 rounded-md p-2 content-center items-center bg-white text-black w-full">
+      {/* <p>dfa;lsdkjfla;sdkjf;laskdjf;lkasdjf;la//ksdjf;lakjsd;flkjae;lkkasl;dkfjal;sdkjfl;aksjfe;lwn;flksajdfopiasudjl;kcnqewofi;qhdsolakfjqpweoidsncoafawe</p> */}
           <div className="flex flex-row gap-5 items-center justify-center w-full">
             {isOwner && publicIndex !== undefined && (
               <Button onClick={navToUpdate} removeOutline={true}>
@@ -120,7 +124,7 @@ export const DatasetView = ({
           )}
           {!liteMode && showImgs && (
             <div className="max-h-96 overflow-auto flex flex-col items-center gap-3">
-              {imgsLoading && <p>Imgs Loading...</p>}
+              {/* {imgsLoading && <p>Imgs Loading...</p>} */}
               {!imgsLoading && !!imgUrls.length && <p>Images: </p>}
               {imgUrls?.map((url: string, index: number) => (
                 <img

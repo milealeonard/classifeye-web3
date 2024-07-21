@@ -35,28 +35,7 @@ const MyDatasets = (): React.ReactElement => {
   ]
 
 
-  const handleChangeSort = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const sortOption = event.target.value;
-    setSortOption(sortOption);
-
-    if (+sortOption == 1) {
-      /* Most Recent, do later */
-    } else if (+sortOption == 2) {
-      /* Sort By Price */
-      setDatasets(currentDatasets => {
-        // Create a new array with the first dataset repeated 11 times
-        const updatedDatasets = [...currentDatasets].sort((a, b) => +a.price - +b.price);
-        return updatedDatasets;
-      });
-    } else if (+sortOption == 3) {
-      /* Sort by name */
-      setDatasets(currentDatasets => {
-        const updatedDataset = [...currentDatasets].sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
-        return updatedDataset;
-      });
-
-    }
-  };
+ 
 
   const handleChangeView = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setViewOption(event.target.value);
@@ -84,7 +63,11 @@ const MyDatasets = (): React.ReactElement => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className = "flex justify-center items-center h-screen w-screen">
+      <div className="lds-dual-ring"></div>
+    </div>
+    );
   }
 
   if (!datasets || !accounts) {
@@ -97,22 +80,6 @@ const MyDatasets = (): React.ReactElement => {
   return (
     <div className="flex flex-col  w-full h-screen">
       <NavBar title="My datasets" />
-      {/* <div className="flex flex-row justify-left  w-full pl-2 text-black">
-        <select  placeholder = {"Sort By"} id="dropdown" value={sortOption} onChange={handleChangeSort} style={{padding: '10px', width: "150px", marginRight: "20px"}}>
-        {sortOptions.map((option, index) => (
-          <option key={index} value={option.value}>
-            {option.option}
-          </option>
-        ))}
-        </select>
-        <select  placeholder = {"View By"} id="dropdown" value={viewOption} onChange={handleChangeView} style={{padding: '10px', width: "150px"}}>
-        {viewOptions.map((option, index) => (
-          <option key={index} value={option.value}>
-            {option.option}
-          </option>
-        ))}
-        </select>
-      </div> */}
       <div className="flex flex-row jusifty-center items-center">
         <ListDatasets forOwnersOnly datasets={datasets} accounts={accounts} />
       </div>

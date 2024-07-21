@@ -10,7 +10,7 @@ export const NavBar = ({ title }: { title: string }): React.ReactElement => {
   //   setIsOpen(!isOpen);
   // }
   return (
-    <div className="w-full">
+    <div className="z-10 bg-lightGray w-full fixed top-0 left-0">
       <div className="border-b-2 border-black">
         <div className="flex flex-row w-full justify-between items-center p-3">
           <HomeIcon

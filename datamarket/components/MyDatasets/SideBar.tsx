@@ -11,7 +11,7 @@ import { filter } from "jszip";
 
 export const SideBar = (
     {datasets, setDataset}: 
-    {datasets: Dataset[], setDataset: React.Dispatch<React.SetStateAction<Dataset[]>>}):
+    {datasets: Map<[Dataset, number], string[]>, setDataset: React.Dispatch<React.SetStateAction<Map<[Dataset, number] , string[]>>>}):
     React.ReactElement => {
     const sortOptions: SortType[] = ["Ascending", "Descending"];
     const viewOptions: ViewType[] = ["Gallery", "List"];

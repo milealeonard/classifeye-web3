@@ -54,13 +54,23 @@ const toggleFilterSelect = (filterSelect: boolean) : boolean => {
 
 
 /* Dataset utils */
-const sortDatasets = (datasets: Dataset[], option: SortType) : Dataset[] => {
+const sortDatasets = (datasets: Map<[Dataset, number], string[]>, option: SortType) : Map<[Dataset, number], string[]> => {
+    let mapArray = Array.from(datasets.entries());
+
+    
     if (option == "Ascending") {
-        return [...datasets].sort((a, b) => +a.price - +b.price);
+        mapArray.sort((a, b) => +a[0][0].price - +b[0][0].price);
     } else if (option == "Descending") {
-          return [...datasets].sort((a, b) => +b.price - +a.price);  
+        mapArray.sort((a, b) => +b[0][0].price - +a[0][0].price);  
     }
+
+    return new Map(mapArray);
+
+
+
+
 }
+ 
 
 
 export const Utils = {
