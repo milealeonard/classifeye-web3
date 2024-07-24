@@ -5,6 +5,7 @@ import {
   CreateCSVProps,
   CreateDatasetProps,
   Dataset,
+  DatasetWithIndex,
   EncryptedDataAndSample,
   GREATERTHAN10TOLETTER,
   ImgNameAndUrl,
@@ -12,6 +13,7 @@ import {
   ProviderAndAccountKey,
   UnzippedContent,
   UpdateDatasetProps,
+  SortType,
 } from "../constants";
 import * as sigUtil from "@metamask/eth-sig-util";
 import { ethers } from "ethers";
@@ -381,23 +383,34 @@ export const createDataset = async ({
     visibility: _datasetVisibility,
   };
 };
+export const attachIndices = (datasets: Dataset[]): DatasetWithIndex[] => {
+  const datasetsWithindex: DatasetWithIndex[] = [];
+  for (let i = 0; i < datasets.length; i++) {
+    const dataset = datasets[i];
+    datasetsWithindex.push({
+      data: dataset.data,
+      name: dataset.name,
+      owner: dataset.owner,
+      price: dataset.price,
+      sample: dataset.sample,
+      visibility: dataset.visibility,
+      description: dataset.description,
+      index: i,
+    });
+  }
 
-export async function attachImagesToDataset(dsToImage: Map<[Dataset, number], string[]>, ds: Dataset, index: number): Promise<void> {
-  try {
-    if (ds.sample) {
-      const res = await fetch(
-        `https://gateway.pinata.cloud/ipfs/${ds.sample}`
-      );
-      const resJson = await res.json();
-      const { imgUrls: unzippedUrls } = await unzipFiles(resJson);
-      /* Make a map that attaches the image url to the correlated dataset, then send the dataset and image url together */ 
-      dsToImage.set([ds, index], unzippedUrls);
+  return datasetsWithindex;
+};
 
-      // setImgUrls(unzippedUrls);
-    }
-    } finally {
-      // setImgsLoading(false);
-    }
+export const sortDatasets = (
+  datasets: DatasetWithIndex[],
+  option: SortType
+): DatasetWithIndex[] => {
+  if (option == "Ascending") {
+    return [...datasets].sort((a, b) => +a.price - +b.price);
+  } else if (option == "Descending") {
+    return [...datasets].sort((a, b) => +b.price - +a.price);
+  }
 };
 
 export const encryptAndZipData = async ({

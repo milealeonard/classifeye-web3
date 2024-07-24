@@ -4,6 +4,11 @@
 
 import internal from "stream";
 
+
+export type SortType = "Ascending" | "Descending";
+export type ViewType = "Gallery" | "List";
+export type FilterType = "Blah" | "Bleh";
+
 export interface ClassiFile {
   blobby: Blob;
   content: string;
@@ -52,6 +57,12 @@ export interface Dataset {
 export interface Option {
   option: string;
   value: number;
+}
+
+/* use this for the components after fetching */
+export interface DatasetWithIndex extends Dataset {
+  index: number;
+
 }
 export interface UpdateDatasetProps {
   index: number;

@@ -6,9 +6,6 @@ interface WindowSize {
     height: number;
 }
 
-export type SortType = "Ascending" | "Descending";
-export type ViewType = "Gallery" | "List";
-export type FilterType = "Blah" | "Bleh";
 
 
 const useWindowSize = () : WindowSize  => {
@@ -40,44 +37,16 @@ const useWindowSize = () : WindowSize  => {
 }
 
 /* Toggle Buttons */
-const toggleSortSelect = (sortSelect: boolean) : boolean => {
-    return !sortSelect;
-}
 
-
-const toggleViewSelect = (viewSelect: boolean) : boolean => {
-    return !viewSelect;
-}
-const toggleFilterSelect = (filterSelect: boolean) : boolean => {
-    return !filterSelect;
-}
-
-
-/* Dataset utils */
-const sortDatasets = (datasets: Map<[Dataset, number], string[]>, option: SortType) : Map<[Dataset, number], string[]> => {
-    let mapArray = Array.from(datasets.entries());
-
-    
-    if (option == "Ascending") {
-        mapArray.sort((a, b) => +a[0][0].price - +b[0][0].price);
-    } else if (option == "Descending") {
-        mapArray.sort((a, b) => +b[0][0].price - +a[0][0].price);  
-    }
-
-    return new Map(mapArray);
 
 
 
 
-}
- 
+/* Dataset utils */
+
 
 
 export const Utils = {
-    toggleSortSelect,
-    toggleViewSelect,
-    toggleFilterSelect,
-    sortDatasets,
     useWindowSize
 };
 
