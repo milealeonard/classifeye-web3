@@ -46,6 +46,7 @@ const PageOne = ({
             }}
             value={firstName}
             placeholder="Grader name"
+            textSize="text-3xl"
           />
 
           {!!firstName && (

@@ -31,6 +31,7 @@ export const UpdateOrCreateDataset = ({
         placeholder="Name"
         fullWidth
         value={name}
+        textSize="text-3xl"
       />
       </div>
       <div className={styles.field}>
@@ -39,6 +40,7 @@ export const UpdateOrCreateDataset = ({
         placeholder="Description"
         fullWidth
         value={description}
+        textSize="text-3xl"
       />
       </div>
       {/* TODO select sample images (or just pick first 5) */}

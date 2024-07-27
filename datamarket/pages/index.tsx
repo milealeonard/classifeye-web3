@@ -6,8 +6,9 @@ import { useRouter } from "next/router";
 import { Button } from "../components/Button";
 import { DEFAULT_HOME_CLASSNAME, colors } from "@/styles/theme";
 import { NavBar } from "@/components/NavBar";
-import styles from './homeStyle.module.css';
+import styles from "./homeStyle.module.css";
 import { MonitorWeightRounded } from "@mui/icons-material";
+import { LoadSpinner } from "@/components/LoadSpinner";
 
 const Home = (): React.ReactElement => {
   const [datasets, setDatasets] = React.useState<Dataset[] | undefined>(
@@ -17,8 +18,6 @@ const Home = (): React.ReactElement => {
   const [accounts, setAccounts] = React.useState<string[] | undefined>(
     undefined
   );
-
-  const router = useRouter();
 
   React.useEffect(() => {
     (async () => {
@@ -41,60 +40,70 @@ const Home = (): React.ReactElement => {
   }, []);
 
   if (loading) {
-    return <p className={DEFAULT_HOME_CLASSNAME}>Loading...</p>;
+    return <LoadSpinner />;
   }
 
   if (!datasets || !accounts) {
     return (
       <p className={styles.metamask}>
-        Please install or connect   
-        <a className={styles.metamaskLink} href = "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank"> metamask</a>
+        Please install or connect
+        <a
+          className={styles.metamaskLink}
+          href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn"
+          target="_blank"
+        >
+          {" "}
+          metamask
+        </a>
       </p>
     );
   }
 
   return (
     <div className={DEFAULT_HOME_CLASSNAME}>
-      <NavBar title="Home"/>
+      <NavBar title="Home" />
       <div className="flex flex-col justify-center items-center w-screen h-5/6">
-        <div className="flex flex-row justify-center h-3/6">
-      {!!datasets.length ? (
-        <div className = "text-center text-3xl border-2 border-red-300 rounded-md hover:bg-red-100 transition-colors duration-300 ease-in-out"
-        style={{minWidth:"400px"}}>
-        <button 
-          onClick={() => router.push("/my-datasets")}
-          className="h-full w-full"
-        >
-          <div className="flex flex-col justify-center h-full  hover:scale-110 transition-transform duration-300">
-          View your projects
-          </div>
-
-        </button>
-        </div>
-      ) : (
-        <p>You don't have any projects yet...</p>
-      )}
-      <div
-      style={{minWidth:"75%"}}
-      />
-
-        <div className = "text-center text-3xl border-2 border-red-300 rounded-md hover:bg-red-100 transition-colors duration-300 ease-in-out"
-        style={{minWidth:"400px"}}>
-        <button 
-          onClick={() => router.push("/new")}
-          className="h-full w-full"
-        >
-          <div className="flex flex-col justify-center h-full hover:scale-110 transition-transform duration-300">
-
-          + New
-          </div>
-
-        </button>
-        </div>
+        <div className="flex flex-row justify-center h-3/6 space-x-36">
+          {!!datasets.length && <ViewProjects />}
+          <NewDataset />
         </div>
       </div>
-      </div>
+    </div>
   );
 };
 
+const ViewProjects = () => {
+  const router = useRouter();
+  return (
+    <div
+      className="text-center text-3xl border-2 border-red-300 rounded-md hover:bg-red-100 transition-colors duration-300 ease-in-out"
+      style={{ minWidth: "400px" }}
+    >
+      <button
+        onClick={() => router.push("/my-datasets")}
+        className="h-full w-full"
+      >
+        <div className="flex flex-col justify-center h-full  hover:scale-110 transition-transform duration-300">
+          View your projects
+        </div>
+      </button>
+    </div>
+  );
+};
+
+const NewDataset = () => {
+  const router = useRouter();
+  return (
+    <div
+      className="text-center text-3xl border-2 border-red-300 rounded-md hover:bg-red-100 transition-colors duration-300 ease-in-out"
+      style={{ minWidth: "400px" }}
+    >
+      <button onClick={() => router.push("/new")} className="h-full w-full">
+        <div className="flex flex-col justify-center h-full hover:scale-110 transition-transform duration-300">
+          + New
+        </div>
+      </button>
+    </div>
+  );
+};
 export default Home;

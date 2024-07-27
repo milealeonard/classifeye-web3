@@ -5,7 +5,7 @@
 import internal from "stream";
 
 
-export type SortType = "Ascending" | "Descending";
+export type SortType = "Price ↑" | "Price ↓";
 export type ViewType = "Gallery" | "List";
 export type FilterType = "Blah" | "Bleh";
 

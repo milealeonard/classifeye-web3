@@ -61,6 +61,7 @@ const PageTwo = ({
               setCurrText(event.target.value ?? "");
             }}
             placeholder="Add a label"
+            textSize="text-3xl"
           />
           </div>
         {tooManyLabels ? (
@@ -80,7 +81,7 @@ const PageTwo = ({
         >
           {labels.map((value: string) => {
             return (
-              <div className="flex flex-row gap-2 items-center text-xl" key={value}>
+              <div className="flex flex-row gap-2 items-center text-3xl" key={value}>
                 <p>{value}</p>
                 <Button
                   removeOutline

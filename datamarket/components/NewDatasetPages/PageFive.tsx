@@ -2,6 +2,7 @@ import React from "react";
 import { Dataset } from "../../constants";
 import { DatasetView } from "../MyDatasets/DatasetView";
 import { ethers } from "ethers";
+import { LoadSpinner } from "../LoadSpinner";
 
 const PageFive = ({ dataset }: { dataset: Dataset }): React.ReactElement => {
   const [loading, setLoading] = React.useState(true);
@@ -23,7 +24,7 @@ const PageFive = ({ dataset }: { dataset: Dataset }): React.ReactElement => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadSpinner/>;
   }
 
   console.log(dataset);

@@ -171,6 +171,7 @@ const PageThree = ({
           }}
           value={currClassif}
           placeholder="Classif"
+          textSize="text-3xl"
         />
         <Button onClick={(): void => setCurrClassif("")}>Clear</Button>
       </div>

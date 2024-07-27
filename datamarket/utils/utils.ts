@@ -406,9 +406,9 @@ export const sortDatasets = (
   datasets: DatasetWithIndex[],
   option: SortType
 ): DatasetWithIndex[] => {
-  if (option == "Ascending") {
+  if (option == "Price ↑") {
     return [...datasets].sort((a, b) => +a.price - +b.price);
-  } else if (option == "Descending") {
+  } else if (option == "Price ↓") {
     return [...datasets].sort((a, b) => +b.price - +a.price);
   }
 };

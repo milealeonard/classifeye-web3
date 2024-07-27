@@ -14,10 +14,10 @@ module.exports = {
   theme: {
     extend: {
       width: {
-        'add':'180px',
+        'add':'128px',
       },
       height: {
-        'add':'192.72px',
+        'add':'128px',
       },
       fontFamily: {
         sans: ["Helvetica Neue", ...fontFamily.sans],

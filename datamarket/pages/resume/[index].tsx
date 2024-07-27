@@ -13,6 +13,7 @@ import {
 import { useRouter } from "next/router";
 import PageThree from "../../components/NewDatasetPages/PageThree";
 import { Button } from "../../components/Button";
+import { LoadSpinner } from "@/components/LoadSpinner";
 
 const ResumeMarking = (): React.ReactElement => {
   const router = useRouter();
@@ -102,7 +103,7 @@ const ResumeMarking = (): React.ReactElement => {
   };
 
   if (loading) {
-    return <p className={DEFAULT_HOME_CLASSNAME}>Loading...</p>;
+    return <LoadSpinner/>;
   }
 
   if (!imgs || !accounts?.length) {
