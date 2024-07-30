@@ -20,7 +20,7 @@ export const NavBar = ({ title }: { title: string }): React.ReactElement => {
           <h1 className="text-xl">{title}</h1>
           <MenuIcon
             style={{ height: "32px", width: "32px", cursor: "pointer" }}
-            onClick={() => router.push("list")}
+            onClick={() => router.push("my-datasets")}
           />
         </div>
       </div>

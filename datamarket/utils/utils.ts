@@ -14,6 +14,8 @@ import {
   UnzippedContent,
   UpdateDatasetProps,
   SortType,
+  FilterType,
+  DatasetVisibility,
 } from "../constants";
 import * as sigUtil from "@metamask/eth-sig-util";
 import { ethers } from "ethers";
@@ -410,7 +412,30 @@ export const sortDatasets = (
     return [...datasets].sort((a, b) => +a.price - +b.price);
   } else if (option == "Price ↓") {
     return [...datasets].sort((a, b) => +b.price - +a.price);
+  } else if (option == "Name ↑") {
+    return [...datasets].sort((a, b) => a.name.localeCompare(b.name));
+  } else if (option == "Name ↓") {
+    return [...datasets].sort((a, b) => b.name.localeCompare(a.name));
+  } else {
+    return datasets;
   }
+};
+
+export const filterDatasets = (
+  datasets: DatasetWithIndex[],
+  filter: FilterType
+): DatasetWithIndex[] => {
+  if (filter) {
+    return datasets.filter((ds) => {
+      return (
+        ds.description.toLowerCase().includes(filter.toLowerCase()) ||
+        (ds.name.toLowerCase().includes(filter.toLowerCase()) &&
+          ds.visibility === DatasetVisibility.PUBLIC)
+      );
+    });
+  }
+
+  return datasets;
 };
 
 export const encryptAndZipData = async ({

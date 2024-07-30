@@ -4,8 +4,7 @@
 
 import internal from "stream";
 
-
-export type SortType = "Price ↑" | "Price ↓";
+export type SortType = "Price ↑" | "Price ↓" | "Name ↑" | "Name ↓";
 export type ViewType = "Gallery" | "List";
 export type FilterType = "Blah" | "Bleh";
 
@@ -62,7 +61,6 @@ export interface Option {
 /* use this for the components after fetching */
 export interface DatasetWithIndex extends Dataset {
   index: number;
-
 }
 export interface UpdateDatasetProps {
   index: number;
@@ -102,6 +100,10 @@ export interface ImgNameAndUrl {
   url: string;
 }
 
+export interface WindowSize {
+  width: number;
+  height: number;
+}
 ///////////
 // Enums //
 ///////////

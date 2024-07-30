@@ -1,51 +1,43 @@
 import React from "react";
-import { DatasetWithIndex } from "../../constants";
 import styles from "./MyDatasets.module.css";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import { sortDatasets } from "@/utils/utils";
-import { SortType, ViewType, FilterType } from "../../constants";
+import { SortType } from "../../constants";
 import SingleSelect from "../SingleSelect";
 
 const Sort = ({
-  datasets,
-  setDatasets,
+  sortOption,
+  setSortOption,
 }: {
-  datasets: DatasetWithIndex[];
-  setDatasets: React.Dispatch<React.SetStateAction<DatasetWithIndex[]>>;
+  sortOption: SortType;
+  setSortOption: React.Dispatch<React.SetStateAction<SortType>>;
 }) => {
-  const sortOptions: SortType[] = ["Price ↑", "Price ↓"];
+  const sortOptions: SortType[] = ["Price ↑", "Price ↓", "Name ↑", "Name ↓"];
   const [sortSelect, setSortSelect] = React.useState(false);
-  const [sortOption, setSortOption] = React.useState<SortType>();
 
-  const changeSortOption = (option: SortType): void => {
-    setSortOption(option);
-    setDatasets(sortDatasets(datasets, option));
-  };
   const toggleSortSelect = (sortSelect: boolean): boolean => {
     return !sortSelect;
   };
   return (
     <div className={styles.dropdown}>
       <div className={styles.dropdownCategories}>
-        <div
+        <button
+          onClick={() => setSortSelect(toggleSortSelect(sortSelect))}
           className={`${styles.rotateDrop} ${
             sortSelect ? styles.rotateDropdown : ""
           }`}
         >
-          <button onClick={() => setSortSelect(toggleSortSelect(sortSelect))}>
-            <ArrowForwardIosRoundedIcon
-              sx={{ width: "32px", height: "32px" }}
-              className={styles.dropBtn}
-            />
-          </button>
-        </div>
+          <ArrowForwardIosRoundedIcon
+            sx={{ width: "32px", height: "32px" }}
+            className={styles.dropBtn}
+          />
+        </button>
         <p>Sort</p>
       </div>
       <SingleSelect
         list={sortOptions}
         selected={sortSelect}
         option={sortOption}
-        changeOption={changeSortOption}
+        changeOption={setSortOption}
       />
     </div>
   );

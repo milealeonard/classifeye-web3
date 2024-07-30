@@ -20,18 +20,17 @@ const View = () => {
   return (
     <div className={styles.dropdown}>
       <div className={styles.dropdownCategories}>
-        <div
+        <button
+          onClick={() => setViewSelect(toggleViewSelect(viewSelect))}
           className={`${styles.rotateDrop} ${
             viewSelect ? styles.rotateDropdown : ""
           }`}
         >
-          <button onClick={() => setViewSelect(toggleViewSelect(viewSelect))}>
-            <ArrowForwardIosRoundedIcon
-              sx={{ width: "32px", height: "32px" }}
-              className={styles.dropBtn}
-            />
-          </button>
-        </div>
+          <ArrowForwardIosRoundedIcon
+            sx={{ width: "32px", height: "32px" }}
+            className={styles.dropBtn}
+          />
+        </button>
         <p>View</p>
       </div>
       <SingleSelect

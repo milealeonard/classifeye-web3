@@ -1,26 +1,20 @@
 import React from "react";
 import { ListDatasets } from "../../components/MyDatasets/ListDatasets";
-import { Dataset, DatasetWithIndex
-} from "../../constants";
+import { DatasetWithIndex } from "../../constants";
 import { getDataMarketContract } from "../../utils/DataContractUtils";
 import { ethers } from "ethers";
 import { NavBar } from "../../components/NavBar";
-import { Option } from "../../constants";
 import { attachIndices } from "@/utils/utils";
 import { LoadSpinner } from "@/components/LoadSpinner";
 
 const MyDatasets = (): React.ReactElement => {
-  const [datasets, setDatasets] = React.useState<Dataset[] | undefined>(
-    undefined
-  );
-  const[datasetsWithIndex, setDatasetsWithIndex] = React.useState<DatasetWithIndex[] | undefined>(
-    undefined
-  );
+  const [datasetsWithIndex, setDatasetsWithIndex] = React.useState<
+    DatasetWithIndex[] | undefined
+  >(undefined);
   const [loading, setLoading] = React.useState(true);
   const [accounts, setAccounts] = React.useState<string[] | undefined>(
     undefined
   );
-
 
   React.useEffect(() => {
     (async () => {
@@ -33,20 +27,17 @@ const MyDatasets = (): React.ReactElement => {
         const dataMarketContract = getDataMarketContract(signerHere);
         const listed = await dataMarketContract.listAllDatasets();
 
-        setDatasetsWithIndex(attachIndices(listed));  
+        setDatasetsWithIndex(attachIndices(listed));
       } catch (e) {
         console.error(e);
       } finally {
-  
         setLoading(false);
-
-
       }
     })();
   }, []);
 
   if (loading) {
-    return <LoadSpinner/>;
+    return <LoadSpinner />;
   }
 
   if (!datasetsWithIndex || !accounts) {
@@ -57,7 +48,12 @@ const MyDatasets = (): React.ReactElement => {
     <div className="flex flex-col  w-full h-screen">
       <NavBar title="My datasets" />
       <div className="flex flex-row jusifty-center items-center">
-        <ListDatasets forOwnersOnly datasets={datasetsWithIndex} accounts={accounts} />
+        <ListDatasets
+          forOwnersOnly
+          datasets={datasetsWithIndex}
+          accounts={accounts}
+          setDatasets={setDatasetsWithIndex}
+        />
       </div>
     </div>
   );
