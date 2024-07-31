@@ -25,7 +25,7 @@ const SingleSelect = <T,>({
                 opt === option ? styles.selected : ""
               }`}
             >
-              {String(opt).slice(0)}
+              <p>{String(opt).slice(0)}</p>
             </button>
           ))}
         </div>

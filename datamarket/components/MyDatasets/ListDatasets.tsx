@@ -1,5 +1,10 @@
 import React from "react";
-import { DatasetWithIndex, FilterType, SortType } from "../../constants";
+import {
+  DatasetWithIndex,
+  FilterType,
+  SortType,
+  ViewType,
+} from "../../constants";
 import { DatasetView } from "./DatasetView";
 import SettingsIcon from "@mui/icons-material/Settings";
 import styles from "./MyDatasets.module.css";
@@ -30,6 +35,7 @@ export const ListDatasets = ({
   const [sortOption, setSortOption] = React.useState<SortType | undefined>(
     undefined
   );
+  const [viewOption, setViewOption] = React.useState<ViewType>("Gallery");
 
   const toggleSidePanel = (): void => {
     setSidePanelHidden(!sidePanelHidden);
@@ -49,16 +55,15 @@ export const ListDatasets = ({
       <div className={`${styles.galleryContainer}`}>
         {datasets.map((dataset: DatasetWithIndex) => {
           return (
-            <div className="p-2">
-              <DatasetView
-                key={dataset.index}
-                dataset={dataset}
-                accounts={accounts}
-                publicIndex={dataset.index}
-                forOwnersOnly={forOwnersOnly}
-                liteMode={liteMode}
-              />
-            </div>
+            <DatasetView
+              key={dataset.index}
+              dataset={dataset}
+              accounts={accounts}
+              publicIndex={dataset.index}
+              forOwnersOnly={forOwnersOnly}
+              liteMode={liteMode}
+              viewOption={viewOption}
+            />
           );
         })}
       </div>
@@ -78,7 +83,7 @@ export const ListDatasets = ({
           </button>
           <div className={styles.dropdownContainer}>
             <Sort sortOption={sortOption} setSortOption={setSortOption} />
-            <View />
+            <View viewOption={viewOption} setViewOption={setViewOption} />
             <Filter filter={filter} setFilter={setFilter} />
           </div>
         </div>

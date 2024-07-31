@@ -408,13 +408,13 @@ export const sortDatasets = (
   datasets: DatasetWithIndex[],
   option: SortType
 ): DatasetWithIndex[] => {
-  if (option == "Price ↑") {
+  if (option == "Price ($-$$$)") {
     return [...datasets].sort((a, b) => +a.price - +b.price);
-  } else if (option == "Price ↓") {
+  } else if (option == "Price ($$$-$)") {
     return [...datasets].sort((a, b) => +b.price - +a.price);
-  } else if (option == "Name ↑") {
+  } else if (option == "Name (A-Z)") {
     return [...datasets].sort((a, b) => a.name.localeCompare(b.name));
-  } else if (option == "Name ↓") {
+  } else if (option == "Name (Z-A)") {
     return [...datasets].sort((a, b) => b.name.localeCompare(a.name));
   } else {
     return datasets;

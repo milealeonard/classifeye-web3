@@ -11,7 +11,7 @@ const Sort = ({
   sortOption: SortType;
   setSortOption: React.Dispatch<React.SetStateAction<SortType>>;
 }) => {
-  const sortOptions: SortType[] = ["Price ↑", "Price ↓", "Name ↑", "Name ↓"];
+  const sortOptions: SortType[] = ["Price ($-$$$)", "Price ($$$-$)", "Name (A-Z)", "Name (Z-A)"];
   const [sortSelect, setSortSelect] = React.useState(false);
 
   const toggleSortSelect = (sortSelect: boolean): boolean => {

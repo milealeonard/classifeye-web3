@@ -4,15 +4,15 @@ import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRound
 import { ViewType } from "../../constants";
 import SingleSelect from "../SingleSelect";
 
-const View = () => {
+const View = ({
+  viewOption,
+  setViewOption,
+}: {
+  viewOption: ViewType,
+  setViewOption: React.Dispatch<React.SetStateAction<ViewType>>
+}) => {
   const viewOptions: ViewType[] = ["Gallery", "List"];
   const [viewSelect, setViewSelect] = React.useState(false);
-  const [viewOption, setViewOption] = React.useState<ViewType>();
-
-  const changeViewOption = (option: ViewType): void => {
-    setViewOption(option);
-  };
-
   const toggleViewSelect = (viewSelect: boolean): boolean => {
     return !viewSelect;
   };
@@ -37,7 +37,7 @@ const View = () => {
         list={viewOptions}
         selected={viewSelect}
         option={viewOption}
-        changeOption={changeViewOption}
+        changeOption={setViewOption}
       />
     </div>
   );

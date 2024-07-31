@@ -4,7 +4,7 @@
 
 import internal from "stream";
 
-export type SortType = "Price ↑" | "Price ↓" | "Name ↑" | "Name ↓";
+export type SortType = "Price ($-$$$)" | "Price ($$$-$)" | "Name (A-Z)" | "Name (Z-A)";
 export type ViewType = "Gallery" | "List";
 export type FilterType = "Blah" | "Bleh";
 

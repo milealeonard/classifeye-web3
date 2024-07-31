@@ -3,12 +3,11 @@ import { Dataset } from "../constants";
 import { getDataMarketContract } from "../utils/DataContractUtils";
 import { ethers } from "ethers";
 import { useRouter } from "next/router";
-import { Button } from "../components/Button";
-import { DEFAULT_HOME_CLASSNAME, colors } from "@/styles/theme";
+import { DEFAULT_HOME_CLASSNAME } from "@/styles/theme";
 import { NavBar } from "@/components/NavBar";
 import styles from "./homeStyle.module.css";
-import { MonitorWeightRounded } from "@mui/icons-material";
 import { LoadSpinner } from "@/components/LoadSpinner";
+import { useWindowSize } from "@/hooks/hooks";
 
 const Home = (): React.ReactElement => {
   const [datasets, setDatasets] = React.useState<Dataset[] | undefined>(
@@ -18,6 +17,12 @@ const Home = (): React.ReactElement => {
   const [accounts, setAccounts] = React.useState<string[] | undefined>(
     undefined
   );
+  const {width} = useWindowSize();
+
+  let buttonLayout = "flex flex-row h-3/6 space-x-36 h-3/6 mt-24"
+  if (width < 970) {
+    buttonLayout = "flex flex-col justify-between h-3/6 space-y-4 mt-24"
+  }
 
   React.useEffect(() => {
     (async () => {
@@ -63,7 +68,7 @@ const Home = (): React.ReactElement => {
     <div className={DEFAULT_HOME_CLASSNAME}>
       <NavBar title="Home" />
       <div className="flex flex-col justify-center items-center w-screen h-5/6">
-        <div className="flex flex-row justify-center h-3/6 space-x-36">
+        <div className = {buttonLayout}>
           {!!datasets.length && <ViewProjects />}
           <NewDataset />
         </div>
@@ -77,7 +82,7 @@ const ViewProjects = () => {
   return (
     <div
       className="text-center text-3xl border-2 border-red-300 rounded-md hover:bg-red-100 transition-colors duration-300 ease-in-out"
-      style={{ minWidth: "400px" }}
+      style={{ minWidth: "400px", minHeight:"50%" }}
     >
       <button
         onClick={() => router.push("/my-datasets")}
@@ -96,7 +101,7 @@ const NewDataset = () => {
   return (
     <div
       className="text-center text-3xl border-2 border-red-300 rounded-md hover:bg-red-100 transition-colors duration-300 ease-in-out"
-      style={{ minWidth: "400px" }}
+      style={{ minWidth: "400px",minHeight:"50%"}}
     >
       <button onClick={() => router.push("/new")} className="h-full w-full">
         <div className="flex flex-col justify-center h-full hover:scale-110 transition-transform duration-300">

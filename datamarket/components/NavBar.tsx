@@ -5,10 +5,6 @@ import { useRouter } from "next/router";
 
 export const NavBar = ({ title }: { title: string }): React.ReactElement => {
   const router = useRouter();
-  // const [isOpen, setIsOpen] = React.useState(false);
-  // const toggleMenu = () => {
-  //   setIsOpen(!isOpen);
-  // }
   return (
     <div className="z-10 bg-lightGray w-full fixed top-0 left-0">
       <div className="border-b-2 border-black">
@@ -24,9 +20,6 @@ export const NavBar = ({ title }: { title: string }): React.ReactElement => {
           />
         </div>
       </div>
-      {/* {isOpen && (
-        <p>Hello</p>
-      )} */}
     </div>
   );
 };
