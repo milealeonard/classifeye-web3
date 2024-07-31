@@ -3,8 +3,8 @@ import { WindowSize } from "@/constants";
 
 export const useWindowSize = (): WindowSize => {
   const [windowSize, setWindowSize] = React.useState<WindowSize>({
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: 0,
+    height: 0,
   });
 
   React.useEffect(() => {
