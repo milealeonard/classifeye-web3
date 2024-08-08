@@ -41,7 +41,7 @@ export const ListDatasets = ({
   return (
     <div className="flex flex-col w-full">
       <AddButton />
-      <div className="flex flex-wrap justify-center px-1 w-3/5 absolute left-[20%] mt-[57.33px]">
+      <div className="flex flex-wrap justify-center px-1 w-3/5 absolute left-[20%] top-[8%]">
         {filterDatasets(datasets, filter).map((dataset: DatasetWithIndex) => {
           return (
             <DatasetView
@@ -55,7 +55,7 @@ export const ListDatasets = ({
           );
         })}
       </div>
-      <div className="flex justify-end w-[275px] fixed right-0 top-0 mt-[57.33px]">
+      <div className="flex justify-end w-[275px] fixed right-0 top-[8%]">
         {sidePanelHidden && (
           <button
             onClick={toggleSidePanel}
@@ -65,7 +65,7 @@ export const ListDatasets = ({
           </button>
         )}
         <div
-          className={`border-2 border-lightcoral transition-transform duration-400 ease-in-out h-screen w-1/5 max-w-[200px] bg-white fixed right-0 top-[5.5%] ${
+          className={`border-2 border-lightcoral transition-transform duration-400 ease-in-out h-screen w-1/5 max-w-[200px] bg-white fixed right-0 top-[7.5%] ${
             !sidePanelHidden ? "translate-x-0" : "translate-x-full"
           }`}
         >

@@ -12,7 +12,7 @@ const AddButton = () => {
   const { width } = useWindowSize();
   if (width > 960) {
     return (
-      <div className="flex flex-col items-center fixed left-0 top-0 mt-[57.33px]">
+      <div className="flex flex-col items-center fixed left-0 top-[7%]">
         <div className="flex justify-center gap-1 border-2 border-gray-300  rounded-md p-2 content-center items-center bg-white text-black  w-add h-add m-4">
           <button
             onClick={navToNew}
@@ -28,7 +28,7 @@ const AddButton = () => {
   }
 
   return (
-    <div className="flex flex-col items-center fixed left-0 top-0 mt-[57.33px]">
+    <div className="flex flex-col items-center fixed left-0 top-[7.5%]">
       <button
         onClick={navToNew}
         className={

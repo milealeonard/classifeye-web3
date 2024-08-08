@@ -138,12 +138,7 @@ const PageThree = ({
           );
         })}
       </div>
-      <div
-        className="flex flex-row gap-1 content-center items-center"
-        // style={{
-        //   height: "calc(100vh - 330px)",
-        // }}
-      >
+      <div className="flex flex-row gap-1 content-center items-center">
         <img
           src={images[fileIndex].content}
           alt="logo"

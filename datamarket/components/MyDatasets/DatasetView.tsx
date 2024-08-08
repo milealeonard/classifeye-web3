@@ -6,6 +6,11 @@ import { useWindowSize } from "@/hooks/hooks";
 import { GalleryView } from "./GalleryView";
 import { ListView } from "./ListView";
 
+/**
+ * @param viewOption Gallery or list view
+ * @param publicIndex Index for dataset
+ * For other param descriptions look at ListDatasets
+ */
 interface DatasetViewProps {
   dataset: DatasetWithIndex;
   accounts: string[];
