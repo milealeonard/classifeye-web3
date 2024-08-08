@@ -13,11 +13,14 @@ module.exports = {
   ],
   theme: {
     extend: {
+      spacing: {
+        belowNav: "58px",
+      },
       width: {
-        'add':'128px',
+        add: "128px",
       },
       height: {
-        'add':'128px',
+        add: "128px",
       },
       fontFamily: {
         sans: ["Helvetica Neue", ...fontFamily.sans],
