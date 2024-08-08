@@ -12,9 +12,8 @@ Will need a metamask connected to sepolia to view.
 
 ### Callouts
 
-This is NOT a project about fantastic web design haha, it is quite awful.
 This was mainly a fun little project to get some extra practice with Solidity (smart contract engineering + testing), to practice a new use case (data storage), get familiar with IPFS, and get exposure to deploying to testnets.
-May refine the frontend as we go forward, but I mainly just wanted to get something functional. Much of the typescript code isn't even very neat as the bulk of it was coded in a fat 6hr session to just get a working classifier out when I recreated `classifeye-web.vercel.app` as I had lost the source code for the previous version of it lol.
+Much of the typescript code isn't even very neat as the bulk of it was coded in a fat 6hr session to just get a working classifier out when I recreated `classifeye-web.vercel.app` as I had lost the source code for the previous version of it lol.
 
 ## Techs used
 
