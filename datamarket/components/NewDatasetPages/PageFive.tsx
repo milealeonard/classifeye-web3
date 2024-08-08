@@ -1,9 +1,15 @@
 import React from "react";
-import { Dataset } from "../../constants";
-import { DatasetView } from "../DatasetView";
+import { Dataset, DatasetWithIndex } from "../../constants";
+import { DatasetView } from "../MyDatasets/DatasetView";
 import { ethers } from "ethers";
+import { LoadSpinner } from "../LoadSpinner";
+import { ViewType } from "../../constants";
 
-const PageFive = ({ dataset }: { dataset: Dataset }): React.ReactElement => {
+const PageFive = ({
+  dataset,
+}: {
+  dataset: DatasetWithIndex;
+}): React.ReactElement => {
   const [loading, setLoading] = React.useState(true);
   const [accounts, setAccounts] = React.useState<string[] | undefined>(
     undefined
@@ -23,21 +29,22 @@ const PageFive = ({ dataset }: { dataset: Dataset }): React.ReactElement => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadSpinner />;
   }
 
   console.log(dataset);
 
   return (
     <div className="flex flex-col gap-1">
-      <p>
+      <div className="text-center text-2xl">
         Please wait while your dataset gets created. It can take up to a few
         minutes.
-      </p>
+      </div>
       <DatasetView
         dataset={dataset}
         accounts={accounts}
         publicIndex={undefined}
+        viewOption={ViewType.GALLERY}
       />
     </div>
   );

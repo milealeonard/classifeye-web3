@@ -13,6 +13,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      width: {
+        'add':'128px',
+      },
+      height: {
+        'add':'128px',
+      },
       fontFamily: {
         sans: ["Helvetica Neue", ...fontFamily.sans],
         serif: [...fontFamily.serif],
@@ -25,6 +31,7 @@ module.exports = {
         light: "var(--color-light)",
         lightBlue: colors.lightBlue,
         darkBlue: colors.darkBlue,
+        lightGray: colors.lightGray,
       },
       backgroundImage: {
         heroImage: "url('/bg.png')",

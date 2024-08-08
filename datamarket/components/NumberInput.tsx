@@ -23,7 +23,7 @@ export const NumberInput: FC<Props> = ({
       value={value}
       onChange={onChange}
       disabled={disabled}
-      className="p-1 rounded-md border-2 border-lightBlue text-black focus:outline-none w-full"
+      className="p-1 w-full border-b-2 border-gray-500 bg-lightGray text-3xl text-black focus:outline-none w-full"
     />
   );
 };

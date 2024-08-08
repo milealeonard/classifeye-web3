@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { text } from "stream/consumers";
 
 type Props = {
   onChange: (event: any) => void;
@@ -8,6 +9,7 @@ type Props = {
   disabled?: boolean;
   multiline?: boolean;
   fullWidth?: boolean;
+  textSize?: string;
 };
 
 export const TextField: FC<Props> = ({
@@ -18,9 +20,10 @@ export const TextField: FC<Props> = ({
   disabled,
   multiline,
   fullWidth,
+  textSize,
 }) => {
   let className =
-    "p-1 rounded-md border-2 border-lightBlue text-black focus:outline-none";
+    "p-1 bg-lightGray w-full text-black focus:outline-none " + textSize;
   if (fullWidth) {
     className = className.concat(" w-full");
   }

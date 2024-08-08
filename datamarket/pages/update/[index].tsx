@@ -5,6 +5,7 @@ import { getDataMarketContract } from "../../utils/DataContractUtils";
 import { ethers } from "ethers";
 import { DatasetToUpdate } from "../../components/UpdateDataset";
 import { userOwnsDataset } from "../../utils/utils";
+import { LoadSpinner } from "@/components/LoadSpinner";
 
 const UpdateDatasets = (): React.ReactElement => {
   const router = useRouter();
@@ -26,6 +27,7 @@ const UpdateDatasets = (): React.ReactElement => {
         const signerHere = await provider.getSigner();
         const dataMarketContract = getDataMarketContract(signerHere);
         const listed = await dataMarketContract.listAllDatasets();
+        
 
         setDatasets(listed);
       } catch (e) {
@@ -39,7 +41,7 @@ const UpdateDatasets = (): React.ReactElement => {
   console.log(accounts);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadSpinner/>;
   }
 
   const publicIndex = router.query.index;

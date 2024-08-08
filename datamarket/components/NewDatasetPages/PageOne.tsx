@@ -1,9 +1,7 @@
 import React from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import { ClassiFile } from "../../constants";
-import { Button } from "../Button";
 import { TextField } from "../TextField";
-
 const PageOne = ({
   hasFiles,
   setFiles,
@@ -36,20 +34,26 @@ const PageOne = ({
   }
 
   return (
-    <div className="flex flex-col gap-3 items-center" style={{ width: "50vw" }}>
-      <div className="flex flex-row gap-1 items-center relative">
+    <div className="flex flex-col items-center justify-center gap-[3px] w-[50vw] space-y-4">
+      <div className="flex justify-between border-b-2 border-gray-500 w-[30vw] bg-[#F0F4F8] pt-[2px]">
         <TextField
           onChange={(event) => {
             setFirstName(event.target.value);
           }}
           value={firstName}
           placeholder="Grader name"
+          textSize="text-3xl"
         />
 
         {!!firstName && (
-          <CheckIcon className="absolute -right-8" color="secondary" />
+          <CheckIcon
+            sx={{ width: 48, height: 48 }}
+            className=""
+            color="secondary"
+          />
         )}
       </div>
+
       <input
         type="file"
         id="fileInput"
@@ -58,10 +62,25 @@ const PageOne = ({
         multiple
         style={{ display: "none" }}
       />
-      <div className="flex flex-row content-between items-center relative">
-        <Button onClick={handleButtonClick}>Select files</Button>
+      <div className="flex justify-between w-[30vw] mt-2 hover:border-black">
+        <button
+          className="text-2xl border-2 border-gray-400 hover:border-gray-600"
+          onClick={handleButtonClick}
+          style={{
+            minWidth: "156px",
+            minHeight: "64px",
+            padding: "4px",
+            borderRadius: "6px",
+          }}
+        >
+          Select files
+        </button>
         {hasFiles && (
-          <CheckIcon color="secondary" className="absolute -right-8" />
+          <CheckIcon
+            sx={{ width: 48, height: 48 }}
+            color="secondary"
+            className=""
+          />
         )}
       </div>
     </div>

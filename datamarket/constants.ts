@@ -2,6 +2,20 @@
 // INTERFACES/TYPES //
 //////////////////////
 
+import internal from "stream";
+
+export enum SortType {
+  PRICE_ASCENDING = "Price ($-$$$)",
+  PRICE_DESCEDING = "Price ($$$-$)",
+  NAME_ASCENDING = "Name (A-Z)",
+  NAME_DESCENDING = "Name (Z-A)",
+}
+
+export enum ViewType {
+  GALLERY = "Gallery",
+  LIST = "List",
+}
+
 export interface ClassiFile {
   blobby: Blob;
   content: string;
@@ -47,6 +61,15 @@ export interface Dataset {
   description: string;
 }
 
+export interface Option {
+  option: string;
+  value: number;
+}
+
+/* use this for the components after fetching */
+export interface DatasetWithIndex extends Dataset {
+  index: number;
+}
 export interface UpdateDatasetProps {
   index: number;
   newName: string;
@@ -85,6 +108,10 @@ export interface ImgNameAndUrl {
   url: string;
 }
 
+export interface WindowSize {
+  width: number;
+  height: number;
+}
 ///////////
 // Enums //
 ///////////
@@ -97,6 +124,7 @@ export enum DatasetVisibility {
 ///////////////
 // Constants //
 ///////////////
+
 
 export const DATAMARKET_ADDY = "0x5EDB4CB5b94bE5EaAc2f1d63c41b0EFcc62547A8";
 

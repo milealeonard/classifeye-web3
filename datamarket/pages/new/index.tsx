@@ -3,14 +3,20 @@ import { useRouter } from "next/router";
 import { Button } from "../../components/Button";
 import { colors } from "@/styles/theme";
 import PageOne from "../../components/NewDatasetPages/PageOne";
-import { ClassiFile, Dataset, DatasetVisibility } from "../../constants";
+import {
+  ClassiFile,
+  DatasetWithIndex,
+  DatasetVisibility,
+} from "../../constants";
 import PageTwo from "../../components/NewDatasetPages/PageTwo";
 import PageThree from "../../components/NewDatasetPages/PageThree";
 import { createDataset } from "../../utils/utils";
 import PageFour from "../../components/NewDatasetPages/PageFour";
 import PageFive from "../../components/NewDatasetPages/PageFive";
 import toast from "react-hot-toast";
-
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 const NewProj = (): React.ReactElement => {
   const router = useRouter();
   const [pageNumber, setPageNumber] = React.useState(0);
@@ -33,7 +39,7 @@ const NewProj = (): React.ReactElement => {
 
   const [creatingDataset, setCreatingDataset] = React.useState(false);
   const [createdDataset, setCreatedDataset] = React.useState<
-    Dataset | undefined
+    DatasetWithIndex | undefined
   >(undefined);
 
   const pageOneError = React.useMemo(() => {
@@ -62,19 +68,31 @@ const NewProj = (): React.ReactElement => {
   const currentError =
     (pageNumber === 0 && pageOneError) || (pageNumber === 1 && pageTwoError);
 
+  const PrevButton = (
+    <button
+      onClick={(): void => {
+        setPageNumber((prev) => prev - 1);
+      }}
+      className="border-2 border-red-300 rounded-md p-2 disabled:text-gray-500 disabled:border-gray-500 disabled:bg-lightGray hover:bg-red-100"
+      disabled={pageNumber == 0}
+    >
+      <ArrowBackIcon sx={{ width: 64, height: 64 }} />
+    </button>
+  );
   const NextButton = (
-    <Button
+    <button
       onClick={(): void => {
         setPageNumber((prev) => prev + 1);
       }}
-      color="primary"
+      className="border-2 border-red-300 rounded-md p-2 disabled:text-gray-500 disabled:border-gray-500 disabled:bg-lightGray hover:bg-red-100"
       disabled={!!currentError}
     >
-      {pageNumber != 2 ? "Next" : "Save"}
-    </Button>
+      {/* {pageNumber != 2 ? "Next" : "Save"} */}
+      <ArrowForwardIcon sx={{ width: 64, height: 64 }} />
+    </button>
   );
   const SubmitButton = (
-    <Button
+    <button
       onClick={async (): Promise<void> => {
         setCreatingDataset(true);
         try {
@@ -96,19 +114,19 @@ const NewProj = (): React.ReactElement => {
           setCreatingDataset(false);
         }
       }}
-      color="secondary"
+      className="border-2 border-red-300 p-2 rounded-md text-3xl hover:bg-red-100"
       disabled={!!currentError || creatingDataset}
     >
-      Create Dataset
-    </Button>
+      Create
+    </button>
   );
 
   return (
     <div
       className="flex flex-col min-h-full items-center content-center gap-2 w-6/12 pt-4"
-      style={{ backgroundColor: colors.darkBlue }}
+      style={{ backgroundColor: colors.lightGray }}
     >
-      <h1 className="pb-4">classifEye</h1>
+      <h1 className="pb-12">New Project</h1>
       {pageNumber === 0 && (
         <PageOne
           hasFiles={!!files.length}
@@ -140,28 +158,27 @@ const NewProj = (): React.ReactElement => {
       {pageNumber === 4 && createdDataset && (
         <PageFive dataset={createdDataset} />
       )}
-      <div className="flex flex-row gap-4 pt-6">
-        {pageNumber > 0 && pageNumber < 4 && (
-          <Button
-            onClick={(): void => {
-              setPageNumber((prev) => prev - 1);
-            }}
-            color="primary"
+      <div className="flex flex-row pt-6 w-full justify-center">
+        {pageNumber != 4 && (
+          <div
+            className="flex flex-row justify-between"
+            style={{ width: "30vw" }}
           >
-            Back
-          </Button>
+            {pageNumber <= 3 && PrevButton}
+            {pageNumber < 3 && NextButton}
+            {pageNumber === 3 && SubmitButton}
+          </div>
         )}
         {pageNumber == 4 && (
-          <Button
+          <button
             onClick={(): void => {
               router.push("/my-datasets");
             }}
+            className="border-2 border-red-300 text-3xl p-6 rounded-md hover:bg-red-100"
           >
             View all
-          </Button>
+          </button>
         )}
-        {pageNumber < 3 && NextButton}
-        {pageNumber === 3 && SubmitButton}
       </div>
     </div>
   );
