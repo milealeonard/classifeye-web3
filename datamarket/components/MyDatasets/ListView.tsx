@@ -1,8 +1,9 @@
 import React from "react";
-import { DatasetWithIndex } from "../../constants";
+import { DatasetWithIndex, ViewType } from "../../constants";
 import { useRouter } from "next/router";
 import { useWindowSize } from "@/hooks/hooks";
 import { DatasetActions } from "./DatasetActions";
+import { DatasetDetails } from "./DatasetDetails";
 
 export const ListView = ({
   isOwner,
@@ -25,7 +26,11 @@ export const ListView = ({
   return (
     <div className="flex flex-col gap-1 border-2 border-gray-300 hover:border-red-400 rounded-md p-2 content-center items-center bg-white text-black w-full">
       <div className="flex flex-row justify-between w-full">
-        <DatasetDetails dataset={dataset} width={width} />
+        <DatasetDetails
+          dataset={dataset}
+          showDescription={width > 960}
+          viewType={ViewType.LIST}
+        />
         <DatasetActions
           dataset={dataset}
           publicIndex={publicIndex}
@@ -46,24 +51,6 @@ export const ListView = ({
           )}
         </div>
       </div>
-    </div>
-  );
-};
-
-const DatasetDetails = ({
-  dataset,
-  width,
-}: {
-  dataset: DatasetWithIndex;
-  width: number;
-}) => {
-  return (
-    <div className="flex flex-wrap justify-between content-center w-1/2 text-left">
-      <p className="w-1/4 font-bold content-center">{dataset.name}</p>
-      {width > 960 && (
-        <p className="w-1/4 content-center">{dataset.description}</p>
-      )}
-      <p className="w-1/4 italic content-center">${+dataset.price}</p>
     </div>
   );
 };

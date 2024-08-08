@@ -1,11 +1,9 @@
 import React from "react";
-import styles from "./MyDatasets/MyDatasets.module.css";
 
 const SingleSelect = <T,>({
   list,
   selected,
   option,
-
   changeOption,
 }: {
   list: T[];
@@ -14,18 +12,25 @@ const SingleSelect = <T,>({
   changeOption: (option: T) => void;
 }) => {
   return (
-    <div className={styles.dropdownOptions}>
+    <div className="flex flex-col items-start w-[85%]">
       {selected && (
         <div className="min-w-full">
           {list.map((opt) => (
             <button
               key={String(opt)}
               onClick={() => changeOption(opt)}
-              className={`${styles.selectOption} ${
-                opt === option ? styles.selected : ""
-              }`}
+              className="flex flex-row items-center w-full text-left py-2"
             >
-              <p>{String(opt).slice(0)}</p>
+              <span
+                className={`flex items-center mr-[10px] min-h-[28px] cursor-pointer ${
+                  opt === option
+                    ? "text-[18.2px] text-lightcoral"
+                    : "text-[16px]"
+                }`}
+              >
+                {opt === option ? "●" : "○"}
+              </span>
+              <p className="text-base">{String(opt)}</p>
             </button>
           ))}
         </div>

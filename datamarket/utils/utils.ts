@@ -14,7 +14,6 @@ import {
   UnzippedContent,
   UpdateDatasetProps,
   SortType,
-  FilterType,
   DatasetVisibility,
 } from "../constants";
 import * as sigUtil from "@metamask/eth-sig-util";
@@ -356,7 +355,7 @@ export const createDataset = async ({
   publicKeyProp,
   grader,
   images,
-}: CreateDatasetProps): Promise<Dataset> => {
+}: CreateDatasetProps): Promise<DatasetWithIndex> => {
   const { data: createdDatasetCid, sample: createdSampleCid } =
     await encryptAndZipData({ grader, images, publicKeyProp });
 
@@ -383,6 +382,7 @@ export const createDataset = async ({
     sample: createdSampleCid,
     price: BigInt(_datasetPrice),
     visibility: _datasetVisibility,
+    index: undefined,
   };
 };
 export const attachIndices = (datasets: Dataset[]): DatasetWithIndex[] => {
@@ -406,15 +406,15 @@ export const attachIndices = (datasets: Dataset[]): DatasetWithIndex[] => {
 
 export const sortDatasets = (
   datasets: DatasetWithIndex[],
-  option: SortType
+  option: string
 ): DatasetWithIndex[] => {
-  if (option == "Price ($-$$$)") {
+  if (option == SortType.PRICE_ASCENDING) {
     return [...datasets].sort((a, b) => +a.price - +b.price);
-  } else if (option == "Price ($$$-$)") {
+  } else if (option == SortType.PRICE_DESCEDING) {
     return [...datasets].sort((a, b) => +b.price - +a.price);
-  } else if (option == "Name (A-Z)") {
+  } else if (option == SortType.NAME_ASCENDING) {
     return [...datasets].sort((a, b) => a.name.localeCompare(b.name));
-  } else if (option == "Name (Z-A)") {
+  } else if (option == SortType.NAME_DESCENDING) {
     return [...datasets].sort((a, b) => b.name.localeCompare(a.name));
   } else {
     return datasets;
@@ -423,7 +423,7 @@ export const sortDatasets = (
 
 export const filterDatasets = (
   datasets: DatasetWithIndex[],
-  filter: FilterType
+  filter: String
 ): DatasetWithIndex[] => {
   if (filter) {
     return datasets.filter((ds) => {

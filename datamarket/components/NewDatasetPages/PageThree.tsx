@@ -3,7 +3,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { ClassiFile } from "../../constants";
 import { Button } from "../Button";
 import { TextField } from "../TextField";
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { getShowableIndex } from "../../utils/utils";
 
 const PageThree = ({

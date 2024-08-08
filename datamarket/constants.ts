@@ -4,9 +4,17 @@
 
 import internal from "stream";
 
-export type SortType = "Price ($-$$$)" | "Price ($$$-$)" | "Name (A-Z)" | "Name (Z-A)";
-export type ViewType = "Gallery" | "List";
-export type FilterType = "Blah" | "Bleh";
+export enum SortType {
+  PRICE_ASCENDING = "Price ($-$$$)",
+  PRICE_DESCEDING = "Price ($$$-$)",
+  NAME_ASCENDING = "Name (A-Z)",
+  NAME_DESCENDING = "Name (Z-A)",
+}
+
+export enum ViewType {
+  GALLERY = "Gallery",
+  LIST = "List",
+}
 
 export interface ClassiFile {
   blobby: Blob;

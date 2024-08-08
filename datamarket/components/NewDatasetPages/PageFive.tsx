@@ -1,10 +1,15 @@
 import React from "react";
-import { Dataset } from "../../constants";
+import { Dataset, DatasetWithIndex } from "../../constants";
 import { DatasetView } from "../MyDatasets/DatasetView";
 import { ethers } from "ethers";
 import { LoadSpinner } from "../LoadSpinner";
+import { ViewType } from "../../constants";
 
-const PageFive = ({ dataset }: { dataset: Dataset }): React.ReactElement => {
+const PageFive = ({
+  dataset,
+}: {
+  dataset: DatasetWithIndex;
+}): React.ReactElement => {
   const [loading, setLoading] = React.useState(true);
   const [accounts, setAccounts] = React.useState<string[] | undefined>(
     undefined
@@ -24,7 +29,7 @@ const PageFive = ({ dataset }: { dataset: Dataset }): React.ReactElement => {
   }, []);
 
   if (loading) {
-    return <LoadSpinner/>;
+    return <LoadSpinner />;
   }
 
   console.log(dataset);
@@ -39,6 +44,7 @@ const PageFive = ({ dataset }: { dataset: Dataset }): React.ReactElement => {
         dataset={dataset}
         accounts={accounts}
         publicIndex={undefined}
+        viewOption={ViewType.GALLERY}
       />
     </div>
   );

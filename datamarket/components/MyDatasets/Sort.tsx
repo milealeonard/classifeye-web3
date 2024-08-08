@@ -1,43 +1,55 @@
 import React from "react";
-import styles from "./MyDatasets.module.css";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import { SortType } from "../../constants";
+import { DatasetWithIndex, SortType } from "../../constants";
 import SingleSelect from "../SingleSelect";
+import { sortDatasets } from "@/utils/utils";
 
 const Sort = ({
   sortOption,
   setSortOption,
+  datasets,
+  setDatasets,
 }: {
   sortOption: SortType;
-  setSortOption: React.Dispatch<React.SetStateAction<SortType>>;
+  setSortOption: React.Dispatch<React.SetStateAction<string>>;
+  datasets: DatasetWithIndex[];
+  setDatasets: React.Dispatch<React.SetStateAction<DatasetWithIndex[]>>;
 }) => {
-  const sortOptions: SortType[] = ["Price ($-$$$)", "Price ($$$-$)", "Name (A-Z)", "Name (Z-A)"];
+  const sortOptions: string[] = [
+    SortType.PRICE_ASCENDING,
+    SortType.PRICE_DESCEDING,
+    SortType.NAME_ASCENDING,
+    SortType.NAME_DESCENDING,
+  ];
   const [sortSelect, setSortSelect] = React.useState(false);
 
   const toggleSortSelect = (sortSelect: boolean): boolean => {
     return !sortSelect;
   };
+
+  const changeSortOption = (option: string) => {
+    setSortOption(option);
+    setDatasets(sortDatasets(datasets, option));
+  };
+
   return (
-    <div className={styles.dropdown}>
-      <div className={styles.dropdownCategories}>
+    <div className="flex flex-col justify-start items-center w-4/5">
+      <div className="flex flex-row justify-between w-full">
         <button
           onClick={() => setSortSelect(toggleSortSelect(sortSelect))}
-          className={`${styles.rotateDrop} ${
-            sortSelect ? styles.rotateDropdown : ""
-          }`}
+          className={`transform ${
+            sortSelect ? "rotate-90" : "rotate-0"
+          } transition-transform duration-100 ease-in-out`}
         >
-          <ArrowForwardIosRoundedIcon
-            sx={{ width: "32px", height: "32px" }}
-            className={styles.dropBtn}
-          />
+          <ArrowForwardIosRoundedIcon sx={{ width: "32px", height: "32px" }} />
         </button>
-        <p>Sort</p>
+        <p className="min-w-[100px]">Sort</p>
       </div>
       <SingleSelect
         list={sortOptions}
         selected={sortSelect}
         option={sortOption}
-        changeOption={setSortOption}
+        changeOption={changeSortOption}
       />
     </div>
   );

@@ -12,8 +12,7 @@ interface DatasetViewProps {
   // must pass in which idx this dataset has when listed via public method
   publicIndex: number | undefined;
   forOwnersOnly?: boolean;
-  liteMode?: boolean;
-  viewOption: ViewType;
+  viewOption: string;
 }
 
 export const DatasetView = ({
@@ -21,7 +20,6 @@ export const DatasetView = ({
   accounts,
   publicIndex,
   forOwnersOnly,
-  liteMode,
   viewOption,
 }: DatasetViewProps): React.ReactElement => {
   const router = useRouter();
@@ -31,7 +29,7 @@ export const DatasetView = ({
 
   const purchaseDatasetWrapper = async (): Promise<void> => {
     if (publicIndex === undefined) {
-      console.error("AHHHHH");
+      console.error("Dataset does not have an index");
       return;
     }
     await purchaseDataset(publicIndex, Number(dataset.price));
@@ -40,7 +38,7 @@ export const DatasetView = ({
   if (!shouldShowThisDataset) {
     return <></>;
   }
-  if (viewOption == "Gallery") {
+  if (viewOption == ViewType.GALLERY) {
     return (
       <div className="p-2">
         <GalleryView

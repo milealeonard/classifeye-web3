@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./MyDatasets.module.css";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { TextField } from "../TextField";
 
@@ -16,23 +15,20 @@ const Filter = ({
   };
 
   return (
-    <div className={styles.dropdown}>
-      <div className={styles.dropdownCategories}>
+    <div className="flex flex-col justify-start items-center w-4/5">
+      <div className="flex flex-row justify-between w-full">
         <button
           onClick={() => setFilterSelect(toggleFilterSelect(filterSelect))}
-          className={`${styles.rotateDrop} ${
-            filterSelect ? styles.rotateDropdown : ""
-          }`}
+          className={`transform ${
+            filterSelect ? "rotate-90" : "rotate-0"
+          } transition-transform duration-100 ease-in-out`}
         >
-          <ArrowForwardIosRoundedIcon
-            sx={{ width: "32px", height: "32px" }}
-            className={styles.dropBtn}
-          />
+          <ArrowForwardIosRoundedIcon sx={{ width: "32px", height: "32px" }} />
         </button>
-        <p>Filter</p>
+        <p className="min-w-[100px]">Filter</p>
       </div>
       {filterSelect && (
-        <div className={styles.dropdownOptions}>
+        <div className="flex flex-col items-start w-10/12">
           <TextField
             onChange={(event) => {
               setFilter(event.target.value);

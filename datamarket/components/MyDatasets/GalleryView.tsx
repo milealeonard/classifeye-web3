@@ -1,7 +1,8 @@
 import React from "react";
-import { DatasetWithIndex } from "@/constants";
+import { DatasetWithIndex, ViewType } from "@/constants";
 import { useRouter } from "next/router";
 import { DatasetActions } from "./DatasetActions";
+import { DatasetDetails } from "./DatasetDetails";
 
 export const GalleryView = ({
   isOwner,
@@ -29,13 +30,11 @@ export const GalleryView = ({
         showIcons={true}
         isOwner={isOwner}
       />
-      <div className="flex flex-col gap-1 items-center">
-        <h3>{dataset.name}</h3>
-        <p>{dataset.description}</p>
-      </div>
-      <div className="flex flex-col gap-1 items-start">
-        <p>Price: ${Number(dataset.price)}</p>
-      </div>
+      <DatasetDetails
+        dataset={dataset}
+        showDescription={true}
+        viewType={ViewType.GALLERY}
+      />
       {isOwner && publicIndex !== undefined && (
         <button
           onClick={navToResume}

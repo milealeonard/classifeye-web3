@@ -1,7 +1,6 @@
 import React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
-import styles from "./MyDatasets.module.css";
 import { useWindowSize } from "@/hooks/hooks";
 
 const AddButton = () => {
@@ -13,7 +12,7 @@ const AddButton = () => {
   const { width } = useWindowSize();
   if (width > 960) {
     return (
-      <div className={styles.add}>
+      <div className="flex flex-col items-center fixed left-0 top-0 mt-[57.33px]">
         <div className="flex justify-center gap-1 border-2 border-gray-300  rounded-md p-2 content-center items-center bg-white text-black  w-add h-add m-4">
           <button
             onClick={navToNew}
@@ -29,7 +28,7 @@ const AddButton = () => {
   }
 
   return (
-    <div className={styles.add}>
+    <div className="flex flex-col items-center fixed left-0 top-0 mt-[57.33px]">
       <button
         onClick={navToNew}
         className={
